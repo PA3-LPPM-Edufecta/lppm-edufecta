@@ -2,7 +2,7 @@
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="<?php echo base_url(); ?>assets/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__shake" src="<?php echo base_url(); ?>assets/dist/img/edufecta_500x500.png" alt="Edufecta Logo" height="60" width="60">
     </div>
 
     <!-- Main Sidebar Container -->
@@ -131,6 +131,12 @@
                                 <a href="#" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Waktu Pengajuan Proposal</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Jenis Pencairan</p>
                                 </a>
                             </li>
                             <li class="nav-item">

@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/summernote/summernote-bs4.min.css">
+    <link rel="icon" type="image/gif" href="<?php echo base_url(); ?>assets/dist/img/edufecta_500x500.png">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

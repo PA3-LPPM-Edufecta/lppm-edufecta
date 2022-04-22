@@ -27,9 +27,10 @@
                 <li><a href="#" class="dropdown-item">Data Dosen</a></li>
                 <li><a href="#" class="dropdown-item">Skim Penelitian</a></li>
                 <li><a href="#" class="dropdown-item">Skim Pengabdian</a></li>
-                <li><a href="#" class="dropdown-item">Luaran</a></li>
+                <li><a href="<?php echo base_url('masterdata/luaran') ?>" class="dropdown-item">Luaran</a></li>
                 <li><a href="#" class="dropdown-item">Bidang Ilmu</a></li>
                 <li><a href="#" class="dropdown-item">Waktu Pengajuan Proposal</a></li>
+                <li><a href="#" class="dropdown-item">Jenis Pencairan</a></li>
                 <li><a href="#" class="dropdown-item">Upload Template Proposal</a></li>
                 <li><a href="#" class="dropdown-item">Data Reviewer</a></li>
                 <li><a href="#" class="dropdown-item">Kompenen Penilaian Proposal</a></li>
