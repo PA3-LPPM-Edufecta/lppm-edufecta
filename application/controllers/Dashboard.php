@@ -9,9 +9,12 @@ class Dashboard extends CI_Controller {
 		$this->load->model('dashboard_model');
 	}
 
-	// Halaman dasboard
+	// Halaman dashboard
 	public function index()
 	{
-		$this->load->view('layouts/dashboard');
+		$data = array(	'title'					=> 'Dashboard',
+						'isi'					=> 'pages/dashboard/list'
+					);
+		$this->load->view('layouts/dashboard', $data, FALSE);
 	}
 }
