@@ -104,7 +104,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="<?php echo base_url('dashboard/skimpenelitian') ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Skim Penelitian</p>
                                 </a>
@@ -116,13 +116,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="<?php echo base_url('dashboard/dataluaran') ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Luaran</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="<?php echo base_url('dashboard/bidangilmu') ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Bidang Ilmu</p>
                                 </a>
@@ -134,7 +134,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="<?php echo base_url('dashboard/jenispencairan') ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Jenis Pencairan</p>
                                 </a>

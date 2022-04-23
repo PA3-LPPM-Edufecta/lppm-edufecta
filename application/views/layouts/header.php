@@ -25,12 +25,12 @@
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Master Data</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
                 <li><a href="#" class="dropdown-item">Data Dosen</a></li>
-                <li><a href="#" class="dropdown-item">Skim Penelitian</a></li>
+                <li><a href="<?php echo base_url('dashboard/skimpenelitian') ?>" class="dropdown-item">Skim Penelitian</a></li>
                 <li><a href="#" class="dropdown-item">Skim Pengabdian</a></li>
-                <li><a href="<?php echo base_url('masterdata/luaran') ?>" class="dropdown-item">Luaran</a></li>
-                <li><a href="#" class="dropdown-item">Bidang Ilmu</a></li>
+                <li><a href="<?php echo base_url('dashboard/dataluaran') ?>" class="dropdown-item">Luaran</a></li>
+                <li><a href="<?php echo base_url('dashboard/bidangilmu') ?>" class="dropdown-item">Bidang Ilmu</a></li>
                 <li><a href="#" class="dropdown-item">Waktu Pengajuan Proposal</a></li>
-                <li><a href="#" class="dropdown-item">Jenis Pencairan</a></li>
+                <li><a href="<?php echo base_url('dashboard/jenispencairan') ?>" class="dropdown-item">Jenis Pencairan</a></li>
                 <li><a href="#" class="dropdown-item">Upload Template Proposal</a></li>
                 <li><a href="#" class="dropdown-item">Data Reviewer</a></li>
                 <li><a href="#" class="dropdown-item">Kompenen Penilaian Proposal</a></li>
@@ -83,7 +83,7 @@
         </div> -->
         <li class="nav-item text-success text-strong">
             <a class="nav-link" href="<?php echo base_url('admin/akun') ?>">
-                <i class="fa fa-user"></i> <?php echo $this->session->userdata('name'); ?>
+                <i class="fa fa-user"></i> <?php //echo $this->session->userdata('name');// ?>
             </a>
         </li>
         <li class="nav-item text-danger text-strong">
