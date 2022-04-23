@@ -2,7 +2,7 @@
 <section class="content" id="main">
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> &nbsp;Luaran</h3>
+            <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> &nbsp;Bidang Ilmu</h3>
             <!-- Card-Tools -->
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false">
@@ -23,9 +23,9 @@
         <!-- /.card-header -->
         <div class="card-body" style="display: block;">
             <div class="container-fluid">
-                <button type="button" class="btn btn-danger mb-2" onclick="myFunction()">Tambah Data</button>
                 <div class="row">
                     <div class="col-md-12">
+                        <button type="button" class="btn btn-danger mb-2">Tambah Data</button>
                         <table class="table table-bordered">
                         <thead class="bg-danger">
                             <tr>
@@ -47,7 +47,6 @@
                                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
                                         <li><a href="#" class="dropdown-item" onclick="myFunction()">Edit</a></li>
                                         <li><a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-hapus">Hapus</a></li>
-                                        <li><a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-status">Set Status Tidak Aktif</a></li>
                                     </ul>
                                 </td>
                             </tr>
@@ -163,17 +162,12 @@
 <!-- /.modal -->
 
 <script>
-    var x = document.getElementById("form");
-    x.style.display = "none";
 
     function myFunction() {
         var x = document.getElementById("form");
         var y = document.getElementById("main");
-        
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
+
+        y.style.display = "none";
+        x.style.display = "block";
     }
 </script>
