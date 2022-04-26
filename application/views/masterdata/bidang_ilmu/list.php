@@ -93,7 +93,7 @@
                                         <td>
                                             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-danger"></a>
                                             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-                                                <li><a href="<?php echo base_url() ?>sub_bidang_ilmu/" class="dropdown-item">Sub Bidang Ilmu</a></li>
+                                                <li><a href="<?php echo base_url() ?>sub_bidang_ilmu/<?php echo $row['id'] ?>" class="dropdown-item">Lihat Sub Bidang Ilmu</a></li>
                                                 <li><a href="<?php echo base_url() ?>bidang_ilmu/edit/<?php echo $row['id'] ?>" class="dropdown-item">Edit</a></li>
                                                 <li><a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-hapus<?php echo $row['id'] ?>">Hapus</a></li>
                                                 <?php

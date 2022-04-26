@@ -40,7 +40,7 @@
 <section class="content" id="main">
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> &nbsp;Bidang Ilmu</h3>
+            <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> &nbsp;Sub Bidang Ilmu</h3>
             <!-- Card-Tools -->
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false">
@@ -68,6 +68,7 @@
                             <thead class="bg-danger">
                                 <tr>
                                     <th style="width: 20px">No</th>
+                                    <th>ID Bidang Ilmu</th>
                                     <th>Nama</th>
                                     <th>Keterangan</th>
                                     <th>Status</th>
@@ -79,6 +80,7 @@
                                 <?php foreach ($sub_bidang_ilmu as $row) { ?>
                                     <tr>
                                         <td><?php echo $no++; ?></td>
+                                        <td?></td>
                                         <td><?php echo $row['nama'] ?></td>
                                         <td><?php echo $row['keterangan'] ?></td>
                                         <td>
