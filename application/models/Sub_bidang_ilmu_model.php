@@ -13,6 +13,7 @@ class Sub_bidang_ilmu_model extends CI_Model {
 	public function home() {
 		$this->db->select('*');
 		$this->db->from('sub_bidang_ilmu');
+		$this->db->join('bidang_ilmu', 'bidang_ilmu.id = sub_bidang_ilmu.id_bidang_ilmu', 'left');
 		$this->db->order_by('id','ASC');
 		$query = $this->db->get();
 		return $query->result();
