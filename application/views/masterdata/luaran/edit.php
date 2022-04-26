@@ -3,7 +3,7 @@
 </script>
 
 <?php echo validation_errors(); ?>
-<?php echo form_open_multipart(base_url('index.php/luaran/edit/' . $luaran['id'])) ?>
+
 
 <section class="content" id="form">
   <div class="card card-primary">
@@ -32,6 +32,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-md-12">
+          <form method="post" action="<?php echo base_url('luaran/edit/' . $luaran['id']) ?>">
             <div class="form-group row">
               <label for="inputEmail3" class="col-sm-2 col-form-label">Nama Luaran</label>
               <div class="col-sm-10">

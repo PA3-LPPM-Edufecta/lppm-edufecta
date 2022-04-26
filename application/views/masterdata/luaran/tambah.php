@@ -6,7 +6,7 @@
 <?php echo validation_errors(); ?>
 
 
-<!-- <form method="post" action="<?php echo base_url('index.php/luaran/fungsitambah') ?>">
+<!-- <form method="post" action="<?php echo base_url('luaran/fungsitambah') ?>">
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table">
     <tr valign="baseline">
         <td width="22%" align="right" nowrap>Nama</td>
@@ -64,22 +64,22 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <form method="post" action="<?php echo base_url('index.php/luaran/tambah') ?>">
+                        <form method="post" action="<?php echo base_url('luaran/tambah') ?>">
                             <div class="form-group row">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Nama</label>
                                 <div class="col-sm-10">
-                                <input type="name" name="nama" class="form-control" id="inputEmail3" placeholder="Nama">
+                                    <input type="name" name="nama" class="form-control" id="inputEmail3" placeholder="Nama" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Keterangan</label>
                                 <div class="col-sm-10">
-                                <textarea name="keterangan" id="" cols="30" rows="5" class="form-control" placeholder="Keterangan"></textarea>                             
+                                    <textarea name="keterangan" id="" cols="30" rows="5" class="form-control" placeholder="Keterangan" required></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-10 offset-sm-2 text-right">
-                                <button type="submit" class="btn btn-danger">Simpan Data</button>
+                                    <button type="submit" class="btn btn-danger">Simpan Data</button>
                                 </div>
                             </div>
                         </form>
