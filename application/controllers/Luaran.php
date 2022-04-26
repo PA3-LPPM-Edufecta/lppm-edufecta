@@ -47,6 +47,7 @@ class Luaran extends CI_Controller
 				'nama'			=> $this->input->post('nama'),
 				'keterangan' 	=> $this->input->post('keterangan'),
 			);
+			
 			$this->luaran_model->tambah($data);
 			$this->session->set_flashdata('sukses', 'Data Luaran Berhasil Ditambah');
 			redirect(base_url() . 'luaran');
