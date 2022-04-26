@@ -14,7 +14,7 @@ class Luaran extends CI_Controller
 	public function index()
 	{
 		$data	= array(
-			'title'		=> 'Master Data/Luaran',
+			'title'		=> 'Master Data - Luaran',
 			'luaran'	=> $this->luaran_model->listing_luaran(),
 			'isi'		=> 'masterdata/luaran/list'
 		);
@@ -49,7 +49,7 @@ class Luaran extends CI_Controller
 			);
 			$this->luaran_model->tambah($data);
 			$this->session->set_flashdata('sukses', 'Data Luaran Berhasil Ditambah');
-			redirect(base_url() . 'index.php/luaran');
+			redirect(base_url() . 'luaran');
 		}
 	}
 
@@ -71,12 +71,11 @@ class Luaran extends CI_Controller
 			$data = array(
 				'id'			=> $this->input->post('id'),
 				'nama'			=> $this->input->post('nama'),
-				'keterangan' 	=> $this->input->post('keterangan'),
-				'status'		=> $this->input->post('status')
+				'keterangan' 	=> $this->input->post('keterangan')
 			);
 			$this->luaran_model->edit($data);
 			$this->session->set_flashdata('sukses', 'Data Luaran Berhasil Diupdate');
-			redirect(base_url() . 'index.php/luaran');
+			redirect(base_url() . 'luaran');
 		}
 	}
 
@@ -84,22 +83,16 @@ class Luaran extends CI_Controller
 	public function	edit_status($id)
 	{
 		$luaran = $this->luaran_model->listing_luaran($id);
-
 		$status = $this->input->post('status');
 
-		if($status == 1){
-			$status = 0;
-		} else {
-			$status = 1;
-		}
-
 		$data = array(
-			'status'		=> $status,
+			'id'		=> $this->input->post('id'),
+			'status'		=> $status
 		);
 
 		$this->luaran_model->edit($data);
 		$this->session->set_flashdata('sukses', 'Status Berhasil Diupdate');
-		redirect(base_url() . 'index.php/luaran');
+		redirect(base_url() . 'luaran');
 	}
 
 	// Delete Luaran 
@@ -108,6 +101,6 @@ class Luaran extends CI_Controller
 		$data = array('id'	=> $id);
 		$this->luaran_model->delete($data);
 		$this->session->set_flashdata('sukses', 'Data Luaran Berhasil Dihapus');
-		redirect(base_url() . 'index.php/luaran');
+		redirect(base_url() . 'luaran');
 	}
 }
