@@ -27,6 +27,49 @@
     <!-- summernote -->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugins/summernote/summernote-bs4.min.css">
     <link rel="icon" type="image/gif" href="<?php echo base_url(); ?>assets/dist/img/edufecta_500x500.png">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/datatables/dataTables.bootstrap4.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/select2/select2.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/iCheck/flat/blue.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!-- jQuery -->
+    <script src="<?php echo base_url() ?>assets/plugin/jquery/jquery.min.js"></script>
+    <!-- JQUERY UI -->
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/plugin/jquery-ui/jquery-ui.min.css">
+    <script src="<?php echo base_url(); ?>assets/plugin/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+    <!-- SWEETALERT -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <!-- jquery chained -->
+    <script src="<?php echo base_url() ?>assets/plugin/jquery-chained/jquery.chained.min.js" type="text/javascript"></script>
+    <style type="text/css" media="screen">
+        .btn-group-xs>.btn,
+        .btn-xs {
+            padding: .25rem .4rem;
+            font-size: .875rem;
+            line-height: .5;
+            border-radius: .2rem;
+        }
+
+        .text-strong {
+            font-weight: bold;
+            background-color: #FFC;
+        }
+
+        .select2 {
+            z-index: 10050 !important;
+        }
+
+        span.select2-container {
+            z-index: 10050 !important;
+        }
+    </style>
+    <!-- timepicker -->
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/jquery-timepicker/jquery.timepicker.min.css">
+    <!-- TINYMCE -->
+    <script src="<?php echo base_url() ?>assets/plugin/tinymce/js/tinymce/tinymce.min.js"></script>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

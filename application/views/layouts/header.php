@@ -27,7 +27,7 @@
                 <li><a href="#" class="dropdown-item">Data Dosen</a></li>
                 <li><a href="<?php echo base_url('dashboard/skimpenelitian') ?>" class="dropdown-item">Skim Penelitian</a></li>
                 <li><a href="#" class="dropdown-item">Skim Pengabdian</a></li>
-                <li><a href="<?php echo base_url('dashboard/dataluaran') ?>" class="dropdown-item">Luaran</a></li>
+                <li><a href="<?php echo base_url('index.php/luaran') ?>" class="dropdown-item">Luaran</a></li>
                 <li><a href="<?php echo base_url('dashboard/bidangilmu') ?>" class="dropdown-item">Bidang Ilmu</a></li>
                 <li><a href="#" class="dropdown-item">Waktu Pengajuan Proposal</a></li>
                 <li><a href="<?php echo base_url('dashboard/jenispencairan') ?>" class="dropdown-item">Jenis Pencairan</a></li>

@@ -8,7 +8,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="<?php echo base_url(); ?>assets/index3.html" class="brand-link">
+        <a href="<?php echo base_url(); ?>" class="brand-link">
             <img src="<?php echo base_url(); ?>assets/dist/img/edufecta_500x500.jpg" alt="Edufecta Logo" class="brand-image img-circle elevation-3" style="opacity: 1">
             <span class="brand-text font-weight-light">EDUFECTA</span>
         </a>
@@ -116,7 +116,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo base_url('dashboard/dataluaran') ?>" class="nav-link">
+                                <a href="<?php echo base_url(); ?>index.php/luaran" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Luaran</p>
                                 </a>
