@@ -3,9 +3,6 @@
 </script>
 
 
-<?php echo validation_errors(); ?>
-
-
 <!-- <form method="post" action="<?php echo base_url('bidang_ilmu/fungsitambah') ?>">
 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="table">
     <tr valign="baseline">
@@ -41,12 +38,9 @@
 <section class="content" id="form">
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> &nbsp;bidang_ilmu : Tambah Data</h3>
+            <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> &nbsp;Bidang Ilmu : Tambah Data</h3>
             <!-- Card-Tools -->
             <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                 </button>
@@ -64,7 +58,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <form method="post" action="<?php echo base_url('bidang_ilmu/tambah') ?>">
+                        <form id="form_input" method="post" action="<?php echo base_url('masterdata/bidang_ilmu/tambah') ?>">
                             <div class="form-group row">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Nama</label>
                                 <div class="col-sm-10">
@@ -79,9 +73,11 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-10 offset-sm-2 text-right">
-                                    <button type="submit" class="btn btn-danger">Simpan Data</button>
+                                    <button type="submit" class="btn btn-primary">Simpan Data</button>
+                                    <a href="javascript:history.back()" type="button" class="btn btn-danger">Cancel</a>
                                 </div>
                             </div>
+                            <text class="text-danger"><?php echo validation_errors(); ?></text>
                         </form>
                     </div>
                 </div>

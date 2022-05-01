@@ -11,9 +11,6 @@
             <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> &nbsp;Skim Penelitian : Tambah Data</h3>
             <!-- Card-Tools -->
             <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                 </button>
@@ -31,7 +28,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <form method="post" action="<?php echo base_url('skim_penelitian/tambah') ?>">
+                        <form method="post" action="<?php echo base_url('masterdata/skim_penelitian/tambah') ?>">
                             <div class="form-group row">
                                 <label for="inputEmail3" class="col-sm-2 col-form-label">Nama</label>
                                 <div class="col-sm-10">
