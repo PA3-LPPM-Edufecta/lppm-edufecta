@@ -11,24 +11,15 @@ class Sub_bidang_ilmu extends CI_Controller
 	}
 
 	// View sub_bidang_ilmu
-	public function index($id)
+	public function index()
 	{
 		$data	= array(
 			'title'		=> 'Master Data - Sub Bidang Ilmu',
-			'sub_bidang_ilmu'	=> $this->sub_bidang_ilmu_model->listing_sub_bidang_ilmu($id),
-			'isi'		=> 'masterdata/bidang_ilmu/sub/list/'
+			'sub_bidang_ilmu'	=> $this->sub_bidang_ilmu_model->listing_sub_bidang_ilmu(),
+			'isi'		=> 'masterdata/bidang_ilmu/sub/list'
 		);
 		$this->load->view('layouts/dashboard', $data);
 	}
-
-	// public function tambah()
-	// {
-	// 	$data	= array(
-	// 				'title'		=> 'Tambah bidang_ilmu/sub Baru',
-	// 				'isi'		=> 'masterdata/bidang_ilmu/sub/tambah'
-	// 			);
-	// 	$this->load->view('layouts/dashboard', $data);
-	// }
 
 	// Tambah bidang_ilmu/sub
 	public function tambah()
@@ -38,7 +29,7 @@ class Sub_bidang_ilmu extends CI_Controller
 		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 		if ($this->form_validation->run() === FALSE) {
 			$data	= array(
-				'title'		=> 'Tambah Bidang Ilmu Baru',
+				'title'		=> 'Tambah Data',
 				'isi'		=> 'masterdata/bidang_ilmu/sub/tambah'
 			);
 			$this->load->view('layouts/dashboard', $data);
@@ -49,12 +40,9 @@ class Sub_bidang_ilmu extends CI_Controller
 			);
 			$this->sub_bidang_ilmu_model->tambah($data);
 			$this->session->set_flashdata('sukses', 'Data Bidang Ilmu Berhasil Ditambah');
-			redirect(base_url() . 'sub_bidang_ilmu');
+			redirect(base_url() . 'masterdata/sub_bidang_ilmu/');
 		}
 	}
-
-	// Lihat sub bidang ilmu
-
 
 	// Edit bidang_ilmu/sub
 	public function edit($id)
@@ -65,7 +53,7 @@ class Sub_bidang_ilmu extends CI_Controller
 		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 		if ($this->form_validation->run() === FALSE) {
 			$data	= array(
-				'title'				=> 'Edit Data Bidang Ilmu',
+				'title'				=> 'Edit Data',
 				'sub_bidang_ilmu'	=> $sub_bidang_ilmu,
 				'isi'				=> 'masterdata/bidang_ilmu/sub/edit'
 			);
@@ -78,7 +66,7 @@ class Sub_bidang_ilmu extends CI_Controller
 			);
 			$this->sub_bidang_ilmu_model->edit($data);
 			$this->session->set_flashdata('sukses', 'Data Bidang Ilmu Berhasil Diupdate');
-			redirect(base_url() . 'sub_bidang_ilmu/');
+			redirect(base_url() . 'masterdata/sub_bidang_ilmu/');
 		}
 	}
 
@@ -95,7 +83,7 @@ class Sub_bidang_ilmu extends CI_Controller
 
 		$this->sub_bidang_ilmu_model->edit($data);
 		$this->session->set_flashdata('sukses', 'Status Berhasil Diupdate');
-		redirect(base_url() . 'sub_bidang_ilmu/');
+		redirect(base_url() . 'masterdata/sub_bidang_ilmu/');
 	}
 
 	// Delete bidang_ilmu/sub 
@@ -104,6 +92,6 @@ class Sub_bidang_ilmu extends CI_Controller
 		$data = array('id'	=> $id);
 		$this->sub_bidang_ilmu_model->delete($data);
 		$this->session->set_flashdata('sukses', 'Data Bidang Ilmu Berhasil Dihapus');
-		redirect(base_url() . 'sub_bidang_ilmu/');
+		redirect(base_url() . 'masterdata/sub_bidang_ilmu/');
 	}
 }

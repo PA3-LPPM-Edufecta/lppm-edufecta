@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class pencairan extends CI_Controller
+class Pencairan extends CI_Controller
 {
 
 	// Load database
@@ -21,15 +21,6 @@ class pencairan extends CI_Controller
 		$this->load->view('layouts/dashboard', $data);
 	}
 
-	// public function tambah()
-	// {
-	// 	$data	= array(
-	// 				'title'		=> 'Tambah pencairan Baru',
-	// 				'isi'		=> 'masterdata/pencairan/tambah'
-	// 			);
-	// 	$this->load->view('layouts/dashboard', $data);
-	// }
-
 	// Tambah pencairan
 	public function tambah()
 	{
@@ -37,7 +28,7 @@ class pencairan extends CI_Controller
 		$this->form_validation->set_rules('nama', 'Nama', 'required');
 		if ($this->form_validation->run() === FALSE) {
 			$data	= array(
-				'title'		=> 'Tambah pencairan Baru',
+				'title'		=> 'Tambah Data',
 				'isi'		=> 'masterdata/pencairan/tambah'
 			);
 			$this->load->view('layouts/dashboard', $data);
@@ -46,8 +37,8 @@ class pencairan extends CI_Controller
 				'nama'			=> $this->input->post('nama'),
 			);
 			$this->pencairan_model->tambah($data);
-			$this->session->set_flashdata('sukses', 'Data pencairan Berhasil Ditambah');
-			redirect(base_url() . 'pencairan');
+			$this->session->set_flashdata('sukses', 'Data Pencairan Berhasil Ditambah');
+			redirect(base_url() . 'masterdata/pencairan');
 		}
 	}
 
@@ -59,7 +50,7 @@ class pencairan extends CI_Controller
 		$this->form_validation->set_rules('nama', 'Nama', 'required');
 		if ($this->form_validation->run() === FALSE) {
 			$data	= array(
-				'title'		=> 'Edit Data pencairan',
+				'title'		=> 'Edit Data',
 				'pencairan'	=> $pencairan,
 				'isi'		=> 'masterdata/pencairan/edit'
 			);
@@ -70,8 +61,8 @@ class pencairan extends CI_Controller
 				'nama'			=> $this->input->post('nama'),
 			);
 			$this->pencairan_model->edit($data);
-			$this->session->set_flashdata('sukses', 'Data pencairan Berhasil Diupdate');
-			redirect(base_url() . 'pencairan');
+			$this->session->set_flashdata('sukses', 'Data Pencairan Berhasil Diupdate');
+			redirect(base_url() . 'masterdata/pencairan');
 		}
 	}
 
@@ -88,7 +79,7 @@ class pencairan extends CI_Controller
 
 		$this->pencairan_model->edit($data);
 		$this->session->set_flashdata('sukses', 'Status Berhasil Diupdate');
-		redirect(base_url() . 'pencairan');
+		redirect(base_url() . 'masterdata/pencairan');
 	}
 
 	// Delete pencairan 
@@ -96,7 +87,7 @@ class pencairan extends CI_Controller
 	{
 		$data = array('id'	=> $id);
 		$this->pencairan_model->delete($data);
-		$this->session->set_flashdata('sukses', 'Data pencairan Berhasil Dihapus');
-		redirect(base_url() . 'pencairan');
+		$this->session->set_flashdata('sukses', 'Data Pencairan Berhasil Dihapus');
+		redirect(base_url() . 'masterdata/pencairan');
 	}
 }

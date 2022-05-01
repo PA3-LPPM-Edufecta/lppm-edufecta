@@ -1,45 +1,36 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Luaran extends CI_Controller
+class Bidang_ilmu extends CI_Controller
 {
 
 	// Load database
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('luaran_model');
+		$this->load->model('bidang_ilmu_model');
 	}
 
-	// View luaran
+	// View bidang_ilmu
 	public function index()
 	{
 		$data	= array(
-			'title'		=> 'Master Data - Luaran',
-			'luaran'	=> $this->luaran_model->listing_luaran(),
-			'isi'		=> 'masterdata/luaran/list'
+			'title'		=> 'Master Data - Bidang Ilmu',
+			'bidang_ilmu'	=> $this->bidang_ilmu_model->listing_bidang_ilmu(),
+			'isi'		=> 'masterdata/bidang_ilmu/list'
 		);
 		$this->load->view('layouts/dashboard', $data);
 	}
 
-	// public function tambah()
-	// {
-	// 	$data	= array(
-	// 				'title'		=> 'Tambah Luaran Baru',
-	// 				'isi'		=> 'masterdata/luaran/tambah'
-	// 			);
-	// 	$this->load->view('layouts/dashboard', $data);
-	// }
-
-	// Tambah luaran
+	// Tambah bidang_ilmu
 	public function tambah()
 	{
-		// Tambah luaran, check validasi
+		// Tambah bidang_ilmu, check validasi
 		$this->form_validation->set_rules('nama', 'Nama', 'required');
 		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 		if ($this->form_validation->run() === FALSE) {
 			$data	= array(
-				'title'		=> 'Tambah Luaran Baru',
-				'isi'		=> 'masterdata/luaran/tambah'
+				'title'		=> 'Tambah Data',
+				'isi'		=> 'masterdata/bidang_ilmu/tambah'
 			);
 			$this->load->view('layouts/dashboard', $data);
 		} else {
@@ -47,25 +38,24 @@ class Luaran extends CI_Controller
 				'nama'			=> $this->input->post('nama'),
 				'keterangan' 	=> $this->input->post('keterangan'),
 			);
-			
-			$this->luaran_model->tambah($data);
-			$this->session->set_flashdata('sukses', 'Data Luaran Berhasil Ditambah');
-			redirect(base_url() . 'luaran');
+			$this->bidang_ilmu_model->tambah($data);
+			$this->session->set_flashdata('sukses', 'Data Bidang Ilmu Berhasil Ditambah');
+			redirect(base_url() . 'masterdata/bidang_ilmu');
 		}
 	}
 
-	// Edit Luaran
+	// Edit bidang_ilmu
 	public function edit($id)
 	{
-		$luaran = $this->luaran_model->listing_luaran($id);
-		// Tambah luaran, check validasi
+		$bidang_ilmu = $this->bidang_ilmu_model->listing_bidang_ilmu($id);
+		// Tambah bidang_ilmu, check validasi
 		$this->form_validation->set_rules('nama', 'Nama', 'required');
 		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 		if ($this->form_validation->run() === FALSE) {
 			$data	= array(
-				'title'		=> 'Edit Data Luaran',
-				'luaran'	=> $luaran,
-				'isi'		=> 'masterdata/luaran/edit'
+				'title'		=> 'Edit Data',
+				'bidang_ilmu'	=> $bidang_ilmu,
+				'isi'		=> 'masterdata/bidang_ilmu/edit'
 			);
 			$this->load->view('layouts/dashboard', $data);
 		} else {
@@ -74,16 +64,16 @@ class Luaran extends CI_Controller
 				'nama'			=> $this->input->post('nama'),
 				'keterangan' 	=> $this->input->post('keterangan')
 			);
-			$this->luaran_model->edit($data);
-			$this->session->set_flashdata('sukses', 'Data Luaran Berhasil Diupdate');
-			redirect(base_url() . 'luaran');
+			$this->bidang_ilmu_model->edit($data);
+			$this->session->set_flashdata('sukses', 'Data Bidang Ilmu Berhasil Diupdate');
+			redirect(base_url() . 'masterdata/bidang_ilmu');
 		}
 	}
 
 	//Edit Status
 	public function	edit_status($id)
 	{
-		$luaran = $this->luaran_model->listing_luaran($id);
+		$bidang_ilmu = $this->bidang_ilmu_model->listing_bidang_ilmu($id);
 		$status = $this->input->post('status');
 
 		$data = array(
@@ -91,17 +81,17 @@ class Luaran extends CI_Controller
 			'status'		=> $status
 		);
 
-		$this->luaran_model->edit($data);
+		$this->bidang_ilmu_model->edit($data);
 		$this->session->set_flashdata('sukses', 'Status Berhasil Diupdate');
-		redirect(base_url() . 'luaran');
+		redirect(base_url() . 'masterdata/bidang_ilmu');
 	}
 
-	// Delete Luaran 
+	// Delete bidang_ilmu 
 	public function delete($id)
 	{
 		$data = array('id'	=> $id);
-		$this->luaran_model->delete($data);
-		$this->session->set_flashdata('sukses', 'Data Luaran Berhasil Dihapus');
-		redirect(base_url() . 'luaran');
+		$this->bidang_ilmu_model->delete($data);
+		$this->session->set_flashdata('sukses', 'Data Bidang Ilmu Berhasil Dihapus');
+		redirect(base_url() . 'masterdata/bidang_ilmu');
 	}
 }

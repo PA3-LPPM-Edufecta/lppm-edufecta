@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class skim_penelitian extends CI_Controller
+class Skim_penelitian extends CI_Controller
 {
 
 	// Load database
@@ -21,15 +21,6 @@ class skim_penelitian extends CI_Controller
 		$this->load->view('layouts/dashboard', $data);
 	}
 
-	// public function tambah()
-	// {
-	// 	$data	= array(
-	// 				'title'		=> 'Tambah skim_penelitian Baru',
-	// 				'isi'		=> 'masterdata/skim_penelitian/tambah'
-	// 			);
-	// 	$this->load->view('layouts/dashboard', $data);
-	// }
-
 	// Tambah skim_penelitian
 	public function tambah()
 	{	
@@ -45,30 +36,30 @@ class skim_penelitian extends CI_Controller
 
 		if ($this->form_validation->run() === FALSE) {
 			$data	= array(
-				'title'		=> 'Tambah Skim Penelitian Baru',
+				'title'		=> 'Tambah Data',
 				'luaran'	=> $this->skim_penelitian_model->listing_data_luaran(), 
 				'isi'		=> 'masterdata/skim_penelitian/tambah'
 			);
 			$this->load->view('layouts/dashboard', $data);
 		} else {
 			$data = array(
-				'nama'			=> $this->input->post('nama'),
-				'keterangan' 	=> $this->input->post('keterangan'),
-				'maksimal_pengajuan' 	=> $this->input->post('maksimal_pengajuan'),
+				'nama'							=> $this->input->post('nama'),
+				'keterangan' 					=> $this->input->post('keterangan'),
+				'maksimal_pengajuan' 			=> $this->input->post('maksimal_pengajuan'),
 				'jumlah_maksimal_pengajuan' 	=> $this->input->post('jumlah_maksimal_pengajuan'),
-				'syarat' 	=> $this->input->post('syarat'),
-				'list_syarat' 	=> $this->input->post('list_syarat'),
-				'lama_penyelesaian' 	=> $this->input->post('lama_penyelesaian'),
-				'wajib_laporan_kemajuan' 	=> $this->input->post('wajib_laporan_kemajuan'),
-				'id_luaran' 	=> $this->input->post('paket[]'),
-				'maksimal_dana' 	=> $this->input->post('maksimal_dana')
+				'syarat' 						=> $this->input->post('syarat'),
+				'list_syarat' 					=> $this->input->post('list_syarat'),
+				'lama_penyelesaian' 			=> $this->input->post('lama_penyelesaian'),
+				'wajib_laporan_kemajuan' 		=> $this->input->post('wajib_laporan_kemajuan'),
+				'id_luaran' 					=> $this->input->post('paket[]'),
+				'maksimal_dana' 				=> $this->input->post('maksimal_dana')
 			);
 			
 			var_dump($data);
 
 			// $this->skim_penelitian_model->tambah($data);
 			// $this->session->set_flashdata('sukses', 'Data Skim Penelitian Berhasil Ditambah');
-			// redirect(base_url() . 'skim_penelitian');
+			// redirect(base_url() . 'masterdata/skim_penelitian');
 		}
 	}
 
@@ -81,7 +72,7 @@ class skim_penelitian extends CI_Controller
 		$this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
 		if ($this->form_validation->run() === FALSE) {
 			$data	= array(
-				'title'		=> 'Edit Data Skim Penelitian',
+				'title'		=> 'Edit Data',
 				'skim_penelitian'	=> $skim_penelitian,
 				'isi'		=> 'masterdata/skim_penelitian/edit'
 			);
@@ -94,7 +85,7 @@ class skim_penelitian extends CI_Controller
 			);
 			$this->skim_penelitian_model->edit($data);
 			$this->session->set_flashdata('sukses', 'Data Skim Penelitian Berhasil Diupdate');
-			redirect(base_url() . 'skim_penelitian');
+			redirect(base_url() . 'masterdata/skim_penelitian');
 		}
 	}
 
@@ -111,7 +102,7 @@ class skim_penelitian extends CI_Controller
 
 		$this->skim_penelitian_model->edit($data);
 		$this->session->set_flashdata('sukses', 'Status Berhasil Diupdate');
-		redirect(base_url() . 'skim_penelitian');
+		redirect(base_url() . 'masterdata/skim_penelitian');
 	}
 
 	// Delete skim_penelitian 
@@ -120,6 +111,6 @@ class skim_penelitian extends CI_Controller
 		$data = array('id'	=> $id);
 		$this->skim_penelitian_model->delete($data);
 		$this->session->set_flashdata('sukses', 'Data Skim Penelitian Berhasil Dihapus');
-		redirect(base_url() . 'skim_penelitian');
+		redirect(base_url() . 'masterdata/skim_penelitian');
 	}
 }
