@@ -74,7 +74,7 @@
                 </div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-dark" data-dismiss="modal">Tidak</button>
-                    <form action="<?php echo base_url() ?>pencairan/edit_status/<?php echo $row['id'] ?>" method="post">
+                    <form action="<?php echo base_url() ?>masterdata/pencairan/edit_status/<?php echo $row['id'] ?>" method="post">
                         <?php
                         if ($row['status'] == 1) {
                             echo   '<input type="hidden" name="status" value="0">';
