@@ -42,6 +42,29 @@
   </script>
 <?php } ?>
 
+<script>
+  // Sweet alert delete
+  function confirmation(ev) {
+    ev.preventDefault();
+    var urlToRedirect = ev.currentTarget.getAttribute('href'); //use currentTarget because the click may be on the nested i tag and not a tag causing the href to be empty
+    console.log(urlToRedirect); // verify if this is the right URL
+    swal({
+        title: "Yakin ingin menghapus data ini?",
+        text: "Data yang sudah dihapus tidak dapat dikembalikan",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
+        if (willDelete) {
+          // Proses ke URL
+          window.location.href = urlToRedirect;
+        }
+      });
+  }
+</script>
+
 </div>
 <!-- /.card-body -->
 </div>
@@ -86,7 +109,7 @@
 <script src="<?php echo base_url(); ?>assets/plugins/sparklines/sparkline.js"></script>
 <!-- JQVMap -->
 <script src="<?php echo base_url(); ?>assets/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- <script src="<?php echo base_url(); ?>assets/plugins/jqvmap/maps/jquery.vmap.id.js"></script> -->
 <!-- jQuery Knob Chart -->
 <script src="<?php echo base_url(); ?>assets/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -101,6 +124,16 @@
 <!-- DataTables -->
 <script src="<?php echo base_url() ?>assets/plugin/datatables/jquery.dataTables.js"></script>
 <script src="<?php echo base_url() ?>assets/plugin/datatables/dataTables.bootstrap4.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/jszip/jszip.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- SlimScroll -->
 <script src="<?php echo base_url() ?>assets/plugin/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
@@ -109,48 +142,76 @@
 <script src="<?php echo base_url() ?>assets/plugin/ckeditor/ckeditor.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="<?php echo base_url() ?>assets/plugin/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-
 <!-- AdminLTE App -->
 <script src="<?php echo base_url(); ?>assets/dist/js/adminlte.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>assets/dist/js/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="<?php echo base_url(); ?>assets/dist/js/pages/dashboard.js"></script>
-<!-- page script -->
+<!-- jquery-validation -->
+<script src="<?php echo base_url() ?>assets/plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="<?php echo base_url() ?>assets/plugins/jquery-validation/additional-methods.min.js"></script>
+<!-- skim_penelitian page script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+<!-- Page specific script -->
 <script>
   $(function() {
-    $("#example1").DataTable();
+    $("#example1").DataTable({
+      "aLengthMenu": [
+        [5, 10, 25, 50, 100, -1],
+        [5, 10, 25, 50, 100, "All"]
+      ],
+      "iDisplayLength": 5,
+
+      buttons: [
+        'csv', 'excel', 'pdf',
+        {
+          extend: 'print',
+          text: 'Preview Tables',
+          autoPrint: false,
+          exportOptions: {
+            columns: ':visible'
+          }
+        },
+        'colvis'
+      ],
+      columnDefs: [{
+        targets: -1,
+        visible: true
+      }]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
       "searching": false,
       "ordering": true,
       "info": true,
-      "autoWidth": false
+      "autoWidth": false,
+      "responsive": true,
     });
   });
 </script>
 
 <script>
-  $(function () {
+  $(function() {
     // Replace the <textarea id="editor1"> with a CKEditor
     // instance, using default configuration.
     ClassicEditor
       .create(document.querySelector('#editor1'))
-      .then(function (editor) {
+      .then(function(editor) {
         // The editor instance
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.error(error)
       })
 
     // bootstrap WYSIHTML5 - text editor
 
     $('.textareaku').wysihtml5({
-      toolbar: { fa: true }
+      toolbar: {
+        fa: true
+      }
     })
   })
 </script>

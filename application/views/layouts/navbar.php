@@ -104,7 +104,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo base_url('skim_penelitian') ?>" class="nav-link">
+                                <a href="<?php echo base_url('masterdata/skim_penelitian') ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Skim Penelitian</p>
                                 </a>
@@ -116,13 +116,13 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo base_url(); ?>luaran" class="nav-link">
+                                <a href="<?php echo base_url('masterdata/luaran'); ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Luaran</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo base_url('bidang_ilmu') ?>" class="nav-link">
+                                <a href="<?php echo base_url('masterdata/bidang_ilmu') ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Bidang Ilmu</p>
                                 </a>
@@ -134,7 +134,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo base_url('pencairan') ?>" class="nav-link">
+                                <a href="<?php echo base_url('masterdata/pencairan') ?>" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Jenis Pencairan</p>
                                 </a>
@@ -339,9 +339,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<?php echo base_url('') ?>">Dashboard</a></li>
-                        <li class="breadcrumb-item active"><?php echo character_limiter($title, 10) ?></li>
-                        <!-- <li class="breadcrumb-item"><a href="<?php echo base_url('/' . $this->uri->segment(2)) ?>"><?php echo ucfirst(str_replace('_', ' ', $this->uri->segment(2))) ?></a></li> -->
+                        <li class="breadcrumb-item"><a href="<?php echo base_url() ?>">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url('masterdata/'.$this->uri->segment(2)) ?>"><?php echo ucfirst(str_replace('_',' ',$this->uri->segment(2))) ?></a></li>
+                        <li class="breadcrumb-item active"><?php echo character_limiter($title) ?></li>
                     </ol>
                 </div>
             </div>
@@ -352,7 +352,7 @@
     <!-- <section class="content">
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> <?php echo character_limiter($title, 10) ?></h3>
+                <h3 class="card-title"><i class="fas fa-tachometer-alt"></i> <?php echo character_limiter($title) ?></h3>
                 
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="card-refresh" data-source="widgets.html" data-source-selector="#card-refresh-content" data-load-on-init="false">

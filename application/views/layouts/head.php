@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
+    <title><?php echo $title ?></title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -29,6 +29,9 @@
     <link rel="icon" type="image/gif" href="<?php echo base_url(); ?>assets/dist/img/edufecta_500x500.png">
     <!-- DataTables -->
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/datatables/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <!-- Select2 -->
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/select2/select2.min.css">
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/iCheck/flat/blue.css">
@@ -47,7 +50,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 
     <!-- jquery chained -->
-    <script src="<?php echo base_url() ?>assets/plugin/jquery-chained/jquery.chained.min.js" type="text/javascript"></script>
+    <!-- <script src="<?php echo base_url() ?>assets/plugin/jquery-chained/jquery.chained.min.js" type="text/javascript"></script>
     <style type="text/css" media="screen">
         .btn-group-xs>.btn,
         .btn-xs {
@@ -69,7 +72,8 @@
         span.select2-container {
             z-index: 10050 !important;
         }
-    </style>
+    </style> -->
+    
     <!-- timepicker -->
     <link rel="stylesheet" href="<?php echo base_url() ?>assets/plugin/jquery-timepicker/jquery.timepicker.min.css">
     <!-- TINYMCE -->

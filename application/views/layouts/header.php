@@ -25,12 +25,12 @@
             <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Master Data</a>
             <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
                 <li><a href="#" class="dropdown-item">Data Dosen</a></li>
-                <li><a href="<?php echo base_url('dashboard/skimpenelitian') ?>" class="dropdown-item">Skim Penelitian</a></li>
-                <li><a href="#" class="dropdown-item">Skim Pengabdian</a></li>
-                <li><a href="<?php echo base_url('luaran') ?>" class="dropdown-item">Luaran</a></li>
-                <li><a href="<?php echo base_url('dashboard/bidangilmu') ?>" class="dropdown-item">Bidang Ilmu</a></li>
+                <li><a href="<?php echo base_url('masterdata/skim_penelitian') ?>" class="dropdown-item">Skim Penelitian</a></li>
+                <li><a href="<?php echo base_url('masterdata/skim_pengabdian') ?>" class="dropdown-item">Skim Pengabdian</a></li>
+                <li><a href="<?php echo base_url('masterdata/luaran') ?>" class="dropdown-item">Luaran</a></li>
+                <li><a href="<?php echo base_url('masterdata/bidang_ilmu') ?>" class="dropdown-item">Bidang Ilmu</a></li>
                 <li><a href="#" class="dropdown-item">Waktu Pengajuan Proposal</a></li>
-                <li><a href="<?php echo base_url('dashboard/jenispencairan') ?>" class="dropdown-item">Jenis Pencairan</a></li>
+                <li><a href="<?php echo base_url('masterdata/pencairan') ?>" class="dropdown-item">Jenis Pencairan</a></li>
                 <li><a href="#" class="dropdown-item">Upload Template Proposal</a></li>
                 <li><a href="#" class="dropdown-item">Data Reviewer</a></li>
                 <li><a href="#" class="dropdown-item">Kompenen Penilaian Proposal</a></li>
