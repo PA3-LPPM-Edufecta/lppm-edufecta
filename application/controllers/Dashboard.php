@@ -1,21 +1,27 @@
-<?php
+<?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Dashboard extends CI_Controller {
+class Dashboard extends MY_Controller {
 
-	public function __construct()
-	{
-		parent::__construct();
-		$this->load->model('dashboard_model');
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('fungsi');
+        $this->load->library('user_agent');
+        $this->load->helper('myfunction_helper');
+        // backButtonHandle();
+    }
 
-	// Halaman dashboard
-	public function index()
-	{
-		$data = array(	'title'					=> 'Dashboard',
-						'isi'					=> 'dashboard/list'
-					);
-		$this->load->view('layouts/dashboard', $data, FALSE);
-	}
-	
+    function index()
+    {
+    	$logged_in = $this->session->userdata('logged_in');
+        if ($logged_in != TRUE || empty($logged_in)) {
+            redirect('login');
+        }else{
+        	$this->template->load('admin/layouts/layoutbackend','admin/dashboard/list');
+        }
+    }
+
 }
+/* End of file Controllername.php */
+ 
