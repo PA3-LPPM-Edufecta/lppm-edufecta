@@ -23,9 +23,11 @@ class Bidang_ilmu extends MY_Controller
         $list = $this->bidang_ilmu_model->get_datatables();
         $data = array();
         $no = $_POST['start'];
+        $n = 1;
         foreach ($list as $bdgilmu) {
             $no++;
             $row = array();
+            $row[] = $n++;  
             $row[] = $bdgilmu->nama;
             $row[] = $bdgilmu->keterangan;
             $row[] = $bdgilmu->status;
@@ -49,7 +51,7 @@ class Bidang_ilmu extends MY_Controller
         $save  = array(
             'nama'            => $this->input->post('nama'),
             'keterangan'      => $this->input->post('keterangan'),
-            'status'             => $this->input->post('status')
+            // 'status'             => $this->input->post('status')
         );
         $this->bidang_ilmu_model->insert_bidang_ilmu("bidang_ilmu", $save);
         echo json_encode(array("status" => TRUE));
@@ -62,8 +64,25 @@ class Bidang_ilmu extends MY_Controller
         $data  = array(
             'nama'          => $this->input->post('nama'),
             'keterangan'    => $this->input->post('keterangan'),
-            'status'        => $this->input->post('status')
+            // 'status'        => $this->input->post('status')
         );
+        $this->bidang_ilmu_model->update_bidang_ilmu($id, $data);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    public function update_status()
+    {
+        $id      = $this->input->post('id');
+        $status  = $this->input->post('status');
+        if($status == 0){
+            $data  = array(
+                'status'        => 1,
+            );
+        } else {
+            $data  = array(
+                'status'        => 0,
+            );
+        }
         $this->bidang_ilmu_model->update_bidang_ilmu($id, $data);
         echo json_encode(array("status" => TRUE));
     }
@@ -99,11 +118,11 @@ class Bidang_ilmu extends MY_Controller
             $data['status'] = FALSE;
         }
 
-        if ($this->input->post('status') == '') {
-            $data['inputerror'][] = 'status';
-            $data['error_string'][] = 'Status Tidak Boleh Kosong';
-            $data['status'] = FALSE;
-        }
+        // if ($this->input->post('status') == '') {
+        //     $data['inputerror'][] = 'status';
+        //     $data['error_string'][] = 'Status Tidak Boleh Kosong';
+        //     $data['status'] = FALSE;
+        // }
 
         if ($data['status'] === FALSE) {
             echo json_encode($data);
