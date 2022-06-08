@@ -31,10 +31,11 @@
 						<table id="tbl_bidang_ilmu" class="table table-bordered table-striped table-hover">
 							<thead>
 								<tr class="bg-blue">
+									<th width="50">No</th>
 									<th>Nama Bidang Ilmu</th>
 									<th>Keterangan</th>
-									<th>Status</th>
-									<th>Aksi</th>
+									<th width="120">Status</th>
+									<th width="50">Aksi</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -80,18 +81,35 @@
 					"targets": [-1], //last column
 					"render": function(data, type, row) {
 
-						return "<a class=\"btn btn-xs btn-outline-primary\" href=\"javascript:void(0)\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_bidang_ilmu(" + row[3] + ")\"><i class=\"fas fa-edit\"></i></a><a class=\"btn btn-xs btn-outline-danger\" href=\"javascript:void(0)\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delbidangilmu(" + row[3] + ")\"><i class=\"fas fa-trash\"></i></a>";
+						// return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_bidang_ilmu(" + row[4] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delbidangilmu(" + row[4] + ")\">Hapus</a></li></center></ul>";
+						if(row[3]==0){
+							return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item" title="Lihat" data-role="edit" onclick="lihat_sub_bidang_ilmu(`+row[4]+`)">Lihat Sub Bidang Ilmu</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item" title="Edit" data-role="edit" onclick="edit_bidang_ilmu(`+row[4]+`)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item" title="Delete" nama=" + row[0] + "  onclick="delbidangilmu(`+row[4]+`)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item" title="Status" onclick="update_status(`+row[4]+`,` +row[3]+`)">Set Status Aktif</a></li>
+								</ul>
+							`;
+						} else {
+							return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item" title="Lihat" data-role="edit" onclick="lihat_sub_bidang_ilmu(`+row[4]+`)">Lihat Sub Bidang Ilmu</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item" title="Edit" data-role="edit" onclick="edit_bidang_ilmu(`+row[4]+`)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item" title="Delete" nama=" + row[0] + "  onclick="delbidangilmu(`+row[4]+`)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item" title="Status" onclick="update_status(`+row[4]+`,` +row[3]+`)">Set Status Tidak Aktif</a></li>
+								</ul>
+							`;
+						}
+						// return "<a class=\"btn btn-xs btn-outline-primary\" href=\"javascript:void(0)\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_bidang_ilmu(" + row[4] + ")\"><i class=\"fas fa-edit\"></i></a><a class=\"btn btn-xs btn-outline-danger\" href=\"javascript:void(0)\" title=\"Delete\" nama=" + row[3] + "  onclick=\"delbidangilmu(" + row[4] + ")\"><i class=\"fas fa-trash\"></i></a>";
 
 					},
 
 					"orderable": false, //set not orderable
-				},
-                {
-					"targets": [],
-                    "render": function(data, type, row) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },{
+				},{
+					"targets": [3],
                     "render": function(data, type, row) {
                         if(data == 1){
 							return 'Aktif';
@@ -135,6 +153,11 @@
 		timer: 3000
 	});
 
+	//lihat sub bidang ilmu
+	function lihat_sub_bidang_ilmu(id){
+		url = "<?php echo site_url('sub_bidang_ilmu') ?>?id=" + id;
+		window.location = url;
+	}
 
 	//delete
 	function delbidangilmu(id) {
@@ -204,13 +227,29 @@
                 $('[name="id"]').val(data.id);
 				$('[name="nama"]').val(data.nama);
 				$('[name="keterangan"]').val(data.keterangan);
-				$('[name="status"]').val(data.status);
+				// $('[name="status"]').val(data.status);
 				$('#modal_form').modal('show'); // show bootstrap modal when complete loaded
 				$('.modal-title').text('Edit Bidang Ilmu'); // Set title to Bootstrap modal title
 
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				alert('Error get data from ajax');
+			}
+		});
+	}
+
+	function update_status(id, status){
+		$.ajax({
+			url: "<?php echo site_url('bidang_ilmu/update_status'); ?>",
+			type: "POST",
+			data: {id: id, status: status},
+			dataType: "JSON",
+			success: function(data) {
+					reload_table();
+					Toast.fire({
+						icon: 'success',
+						title: 'Success!!.'
+					});
 			}
 		});
 	}
@@ -291,7 +330,7 @@
 								<span class="help-block"></span>
 							</div>
 						</div>
-						<div class="form-group row ">
+						<!-- <div class="form-group row ">
 							<label for="status" class="col-sm-3 col-form-label">Status</label>
 							<div class="col-sm-9 kosong">
                                 <select class="form-control" name="status" id="status">
@@ -301,7 +340,7 @@
                                 </select>
                             <span class="help-block"></span>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</form>
 			</div>
