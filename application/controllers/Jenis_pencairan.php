@@ -46,10 +46,9 @@ class Jenis_pencairan extends MY_Controller
     public function insert()
     {
         $this->_validate();
-        $kode = date('ymsi');
         $save  = array(
-            'nama'            => $this->input->post('nama'),
-            'keterangan'      => $this->input->post('keterangan'),
+            'nama'           => $this->input->post('nama'),
+            'keterangan'     => $this->input->post('keterangan'),
             'sts'            => $this->input->post('sts')
         );
         $this->jenis_pencairan_model->insert_jenis_pencairan("jenis_pencairan", $save);
@@ -63,7 +62,7 @@ class Jenis_pencairan extends MY_Controller
         $save  = array(
             'nama'            => $this->input->post('nama'),
             'keterangan'      => $this->input->post('keterangan'),
-            'sts'      => $this->input->post('sts')
+            'sts'             => $this->input->post('sts')
         );
         $this->jenis_pencairan_model->update_jenis_pencairan($id, $save);
         echo json_encode(array("status" => TRUE));
@@ -81,7 +80,7 @@ class Jenis_pencairan extends MY_Controller
         $this->jenis_pencairan_model->delete_jenis_pencairan($id, 'jenis_pencairan');
         echo json_encode(array("status" => TRUE));
     }
-    
+
     private function _validate()
     {
         $data = array();
@@ -91,7 +90,7 @@ class Jenis_pencairan extends MY_Controller
 
         if ($this->input->post('nama') == '') {
             $data['inputerror'][] = 'nama';
-            $data['error_string'][] = 'Nama Barang Tidak Boleh Kosong';
+            $data['error_string'][] = 'Nama Tidak Boleh Kosong';
             $data['status'] = FALSE;
         }
 
@@ -101,7 +100,13 @@ class Jenis_pencairan extends MY_Controller
             $data['status'] = FALSE;
         }
 
-        if ($data['sts'] === FALSE) {
+        if ($this->input->post('sts') == '') {
+            $data['inputerror'][] = 'sts';
+            $data['error_string'][] = 'Status Tidak Boleh Kosong';
+            $data['status'] = FALSE;
+        }
+
+        if ($data['status'] === FALSE) {
             echo json_encode($data);
             exit();
         }
