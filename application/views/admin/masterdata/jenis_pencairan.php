@@ -8,7 +8,7 @@
 						<h3 class="card-title mt-1"><i class="<?php echo $this->db->get('tbl_submenu')->row(5)->icon; ?> text-blue"></i> Data Jenis Pencairan</h3>
 						<!-- Card-Tools -->
 						<div class="card-tools">
-							<button type="button" class="btn btn-tool text-blue" data-card-widget="card-refresh" data-source="/lppm/dashboard/luaran" data-source-selector="#card-refresh-content" data-load-on-init="false">
+							<button type="button" class="btn btn-tool text-blue" data-card-widget="card-refresh" data-source="/lppm/jenis_pencairan" data-source-selector="#card-refresh-content" data-load-on-init="false">
 								<i class="fas fa-sync-alt"></i>
 							</button>
 							<button type="button" class="btn btn-tool text-blue" data-card-widget="collapse">
@@ -65,7 +65,7 @@
 			"responsive": true,
 			"autoWidth": false,
 			"language": {
-				"sEmptyTable": "Data Jenis Pencairan Belum Ada"
+				"sEmptyTable": "Data Bidang Ilmu Belum Ada"
 			},
 			"processing": true, //Feature control the processing indicator.
 			"serverSide": true, //Feature control DataTables' server-side processing mode.
@@ -79,11 +79,11 @@
 			// "columns": [
 			// 	{
 			// 		data: null,
-            //         sortable: false,
-            //         searchable: false,
-            //         render: function (data, type, row, meta) {
-            //             return meta.row + meta.settings._iDisplayStart + 1;
-            //         }
+			//         sortable: false,
+			//         searchable: false,
+			//         render: function (data, type, row, meta) {
+			//             return meta.row + meta.settings._iDisplayStart + 1;
+			//         }
 			// 	},
 			// 	{data: 1, searchable: true, sortable: true},
 			// 	{data: 2, searchable: true, sortable: true},
@@ -104,15 +104,16 @@
 			//Set column definition initialisation properties.
 			"columnDefs": [{
 					"targets": [-1], //last column
-					"data": null,
-					render: function(data, type, row) {
-						return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_jenis_pencairan(" + row[5] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delpencairan(" + row[5] + ")\">Hapus</a></li></center></ul>";
+					sortable: true,
+					searchable: true,
+					"render": function(data, type, row) {
+						return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_jenis_pencairan(" + row[3] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delpencairan(" + row[3] + ")\">Hapus</a></li></center></ul>";
 					},
 
 					"orderable": false, //set not orderable
 				},
 				{
-					"targets": [3],
+					"targets": [2],
 					"render": function(data, type, row) {
 						if (data == 1) {
 							return 'Aktif';
@@ -222,7 +223,7 @@
 				$('[name="id"]').val(data.id);
 				$('[name="nama"]').val(data.nama);
 				$('[name="keterangan"]').val(data.keterangan);
-				// $('[name="sts"]').val(data.sts);
+				$('[name="sts"]').val(data.sts);
 				$('#modal_form').modal('show'); // show bootstrap modal when complete loaded
 				$('.modal-title').text('Edit Jenis Pencairan'); // Set title to Bootstrap modal title
 
@@ -233,13 +234,15 @@
 		});
 	}
 
+
+
 	function save() {
 		$('#btnSave').text('saving...'); //change button text
 		$('#btnSave').attr('disabled', true); //set button disable 
 		if (save_method == 'add') {
-			url = "<?php echo site_url('jenis_pencairan/insert') ?>"; //arahin ke jenis_pencairan insert
+			url = "<?php echo site_url('jenis_pencairan/insert') ?>";
 		} else {
-			url = "<?php echo site_url('jenis_pencairan/update') ?>"; //arahin ke jenis_pencairan update
+			url = "<?php echo site_url('jenis_pencairan/update') ?>";
 		}
 
 		// ajax adding data to database
@@ -289,11 +292,10 @@
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-
 			</div>
 			<div class="modal-body form">
 				<form action="#" id="form" class="form-horizontal">
-					<input type="hidden" value="" name="id"/>
+					<input type="hidden" value="" name="id" />
 					<div class="card-body">
 						<div class="form-group row ">
 							<label for="nama" class="col-sm-3 col-form-label">Nama Jenis Pencairan</label>
@@ -312,7 +314,11 @@
 						<div class="form-group row ">
 							<label for="sts" class="col-sm-3 col-form-label">Status</label>
 							<div class="col-sm-9 kosong">
-								<textarea type="text" class="form-control selector-keterangan" name="sts" id="sts" placeholder="Status"></textarea>
+								<select class="form-control" name="sts" id="sts">
+									<option value="" selected disabled>--Pilih--</option>
+									<option value="1">Aktif</option>
+									<option value="0">Tidak Aktif</option>
+								</select>
 								<span class="help-block"></span>
 							</div>
 						</div>
