@@ -55,19 +55,25 @@ class Luaran_model extends CI_Model
 		return $query->result();
 	}
 
+	
 	function count_filtered()
 	{
 		$this->_get_datatables_query();
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
-
+	
 	function count_all()
 	{
 		$this->db->from('luaran');
 		return $this->db->count_all_results();
 	}
-
+	
+	function getAll()
+	{
+	   return $this->db->get('luaran');
+	}
+	
 	function insert_luaran($table, $data)
 	{
 		$insert = $this->db->insert($table, $data);
