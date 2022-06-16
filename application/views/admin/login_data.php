@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/foto/logo/<?php echo $aplikasi->logo; ?>">
+  <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/uploads/foto/logo/<?php echo $aplikasi->logo; ?>">
   <title><?php echo $aplikasi->title; ?> | Login</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +32,7 @@
 <body class="hold-transition login-page" id="gradient3s">
   <div class="login-box">
     <div class="login-logo ">
-      <img src="<?php echo base_url(); ?>assets/foto/logo/<?php echo $aplikasi->logo; ?>" alt="Logo" class="img img-responsive img-circle mb-2" width="100px">
+      <img src="<?php echo base_url(); ?>assets/uploads/foto/logo/<?php echo $aplikasi->logo; ?>" alt="Logo" class="img img-responsive img-circle mb-2 img-circle elevation-3" width="100px">
       <a href="<?php echo base_url(); ?>">
         <h2 class="font-weight-bold text-dark">
           <?php
