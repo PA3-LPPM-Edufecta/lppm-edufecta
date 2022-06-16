@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-12">
         <div class="card">
-          <div class="card-header bg-light">
+          <div class="card-header bg-light elevation-1"">
             <h3 class="card-title mt-1"><i class="fa fa-list text-blue"></i> Data Aplikasi</h3>
             <!-- Card-Tools -->
             <div class="card-tools">
@@ -26,7 +26,6 @@
           <!-- /.card-header -->
           <div class="card-body">
             <div class="btn-left btn-blue">
-              <a href="<?= base_url('aplikasi/download'); ?>" type="button" class="btn btn-sm btn-outline-info" title="Download" target="_blank"><i class="fas fa-download"></i> Download</a>
               <a href="<?= base_url('backup/backupdb'); ?>" type="button" class="btn btn-sm btn-outline-warning" title="Backup"><i class="fas fa-hdd"></i> Backup Database</a>
             </div>
           </div>
@@ -105,9 +104,9 @@
           "targets": [8],
           "render": function(data, type, row) {
             if (row[8] != null) {
-              return "<img class=\"img img-responsive img-thumbnail\"  src='<?php echo base_url("assets/foto/logo/"); ?>" + row[8] + "' width=\"100px\" height=\"100px\">";
+              return "<img class=\"img img-responsive img-thumbnail\"  src='<?php echo base_url("assets/uploads/foto/logo/"); ?>" + row[8] + "' width=\"100px\" height=\"100px\">";
             } else {
-              return "<img class=\"myImgx\"  src='<?php echo base_url("assets/foto/logo/Logo.png"); ?>' width=\"100px\" height=\"100px\">";
+              return "<img class=\"myImgx\"  src='<?php echo base_url("assets/uploads/foto/logo/Logo.png"); ?>' width=\"100px\" height=\"100px\">";
             }
           }
         },
@@ -144,8 +143,6 @@
     timer: 3000
   });
 
-
-
   function edit_aplikasi(id) {
     save_method = 'update';
     $('#form')[0].reset(); // reset form on modals
@@ -169,10 +166,10 @@
         $('[name="tahun"]').val(data.tahun);
         $('[name="versi"]').val(data.versi);
         if (data.logo == null) {
-          var image = "<?php echo base_url('assets/foto/logo/Logo.png') ?>";
+          var image = "<?php echo base_url('assets/uploads/foto/logo/Logo.png') ?>";
           $("#v_image").attr("src", image);
         } else {
-          var image = "<?php echo base_url('assets/foto/logo/') ?>";
+          var image = "<?php echo base_url('assets/uploads/foto/logo/') ?>";
           $("#v_image").attr("src", image + data.logo);
         }
         $('#modal_form').modal('show'); // show bootstrap modal when complete loaded

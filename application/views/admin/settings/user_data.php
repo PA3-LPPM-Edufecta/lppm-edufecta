@@ -4,7 +4,7 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header bg-light">
+              <div class="card-header bg-light elevation-1"">
                 <h3 class="card-title mt-1"><i class="fa fa-list text-blue"></i> Data User</h3>
                 <!-- Card-Tools -->
                 <div class="card-tools">
@@ -24,9 +24,8 @@
               </div>
               <!-- /.card-tools -->
               <div class="card-body">
-                <div class="text-left mb-4">
-                  <button type="button" class="btn btn-sm btn-outline-primary" onclick="add_user()" title="Add Data"><i class="fas fa-plus"></i> Add</button>
-                  <a href="<?php echo base_url('user/download') ?>" type="button" class="btn btn-sm btn-outline-info" target="_blank" id="dwn_user" title="Download"><i class="fas fa-download"></i> Download</a>
+                <div class="text-left mb-5">
+                  <button type="button" class="btn btn-primary" onclick="add_user()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>
                 </div>
                 <table id="tabeluser" class="table table-bordered table-striped table-hover">
                   <thead>
@@ -36,7 +35,7 @@
                       <th>Full Name</th>
                       <th>Level</th>
                       <th>Status</th>
-                      <th>Aksi</th>
+                      <th style="width: 60px;">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -101,10 +100,30 @@
               "targets": [-1], //last column
               "render": function(data, type, row) {
 
+                // if (row[4] == "N") {
+                //   return "<a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"vuser(" + row[5] + ")\"><i class=\"fas fa-eye\"></i></a> <a class=\"btn btn-xs btn-outline-primary\"  href=\"javascript:void(0)\" title=\"Edit\" onclick=\"edit_user(" + row[5] + ")\"><i class=\"fas fa-edit\"></i></a><a class=\"btn btn-xs btn-outline-danger\" href=\"javascript:void(0)\" title=\"Delete\"  onclick=\"deluser(" + row[5] + ")\"><i class=\"fas fa-trash\"></i></a>"
+                // } else {
+                //   return "<a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"vuser(" + row[5] + ")\"><i class=\"fas fa-eye\"></i></a> <a class=\"btn btn-xs btn-outline-primary\" href=\"javascript:void(0)\" title=\"Edit\" onclick=\"edit_user(" + row[5] + ")\"><i class=\"fas fa-edit\"></i></a> <a class=\"btn btn-xs btn-outline-warning\" href=\"javascript:void(0)\" title=\"Reset Password\" onclick=\"riset(" + row[5] + ")\"><i>Riset Pass</i></a>";
+                // }
                 if (row[4] == "N") {
-                  return "<a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"vuser(" + row[5] + ")\"><i class=\"fas fa-eye\"></i></a> <a class=\"btn btn-xs btn-outline-primary\"  href=\"javascript:void(0)\" title=\"Edit\" onclick=\"edit_user(" + row[5] + ")\"><i class=\"fas fa-edit\"></i></a><a class=\"btn btn-xs btn-outline-danger\" href=\"javascript:void(0)\" title=\"Delete\"  onclick=\"deluser(" + row[5] + ")\"><i class=\"fas fa-trash\"></i></a>"
+                  return `
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                        <li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="View" onclick="vuser(` + row[5] + `)">View</a></li>
+                        <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_user(` + row[5] + `)">Edit</a></li>
+                        <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="deluser(` + row[5] + `)">Hapus</a></li>
+                        <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[5] + `,` + row[4] + `)">Set Status Aktif</a></li>
+                      </ul>
+                  `;
                 } else {
-                  return "<a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"vuser(" + row[5] + ")\"><i class=\"fas fa-eye\"></i></a> <a class=\"btn btn-xs btn-outline-primary\" href=\"javascript:void(0)\" title=\"Edit\" onclick=\"edit_user(" + row[5] + ")\"><i class=\"fas fa-edit\"></i></a> <a class=\"btn btn-xs btn-outline-warning\" href=\"javascript:void(0)\" title=\"Reset Password\" onclick=\"riset(" + row[5] + ")\"><i>Riset Pass</i></a>";
+                  return `
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                      <li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="View" onclick="vuser(` + row[5] + `)">View</a></li>
+                      <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_user(` + row[5] + `)">Edit</a></li>
+                      <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[5] + `,` + row[4] + `)">Set Status Tidak Aktif</a></li>
+                    </ul>
+                  `;
                 }
 
 
@@ -116,14 +135,14 @@
               "targets": [0],
               "render": function(data, type, row) {
                 if (row[0] != null) {
-                  return "<img class=\"myImgx\"  src='<?php echo base_url("assets/foto/user/"); ?>" + row[0] + "' width=\"100px\" height=\"100px\">";
+                  return "<img class=\"img img-responsive img-thumbnail\"  src='<?php echo base_url("assets/uploads/foto/user/"); ?>" + row[0] + "' width=\"100px\" height=\"100px\">";
                 } else {
-                  return "<img class=\"myImgx\"  src='<?php echo base_url("assets/foto/default-150x150.png"); ?>' width=\"100px\" height=\"100px\">";
+                  return "<img class=\"myImgx\"  src='<?php echo base_url("assets/uploads/foto/default-150x150.png"); ?>' width=\"100px\" height=\"100px\">";
                 }
               }
             },
             { //status
-              "targets": [-2],
+              "targets": [4],
               "render": function(data, type, row) {
                 if (row[4] == "Y") {
                   return "Aktif";
@@ -293,10 +312,10 @@
             $('[name="level"]').val(data.id_level);
 
             if (data.image == null) {
-              var image = "<?php echo base_url('assets/foto/user/default.png') ?>";
+              var image = "<?php echo base_url('assets/uploads/foto/user/default.png') ?>";
               $("#v_image").attr("src", image);
             } else {
-              var image = "<?php echo base_url('assets/foto/user/') ?>";
+              var image = "<?php echo base_url('assets/uploads/foto/user/') ?>";
               $("#v_image").attr("src", image + data.image);
             }
 
@@ -419,9 +438,9 @@
                   <label for="is_active" class="col-sm-3 col-form-label">Status</label>
                   <div class="col-sm-9 kosong">
                     <select class="form-control" name="is_active" id="is_active">
-                      <option value=""></option>
-                      <option value="Y">Y</option>
-                      <option value="N">N</option>
+                      <option value="">--Pilih Status--</option>
+                      <option value="Y">Aktif</option>
+                      <option value="N">Tidak Aktif</option>
                     </select>
                   </div>
                 </div>
