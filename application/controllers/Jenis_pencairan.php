@@ -28,7 +28,7 @@ class Jenis_pencairan extends MY_Controller
             $row = array(); //array 0
             $row[] = $pencairan->nama; //array 1
             $row[] = $pencairan->keterangan; //array 2
-            $row[] = $pencairan->sts; //array 3
+            $row[] = $pencairan->status; //array 3
             $row[] = $pencairan->id;
             $data[] = $row;
         }
@@ -49,7 +49,7 @@ class Jenis_pencairan extends MY_Controller
         $save  = array(
             'nama'           => $this->input->post('nama'),
             'keterangan'     => $this->input->post('keterangan'),
-            'sts'            => $this->input->post('sts')
+            'status'            => $this->input->post('status')
         );
         $this->jenis_pencairan_model->insert_jenis_pencairan("jenis_pencairan", $save);
         echo json_encode(array("status" => TRUE));
@@ -62,7 +62,7 @@ class Jenis_pencairan extends MY_Controller
         $save  = array(
             'nama'            => $this->input->post('nama'),
             'keterangan'      => $this->input->post('keterangan'),
-            'sts'             => $this->input->post('sts')
+            'status'             => $this->input->post('status')
         );
         $this->jenis_pencairan_model->update_jenis_pencairan($id, $save);
         echo json_encode(array("status" => TRUE));
@@ -100,8 +100,8 @@ class Jenis_pencairan extends MY_Controller
             $data['status'] = FALSE;
         }
 
-        if ($this->input->post('sts') == '') {
-            $data['inputerror'][] = 'sts';
+        if ($this->input->post('status') == '') {
+            $data['inputerror'][] = 'status';
             $data['error_string'][] = 'Status Tidak Boleh Kosong';
             $data['status'] = FALSE;
         }
