@@ -21,22 +21,23 @@ class Data_dosen extends MY_Controller
 		$list = $this->data_dosen_model->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
-		foreach ($list as $apl) {
+		foreach ($list as $dosen) {
 			$no++;
 			$row = array();
-			$row[] = $apl->nip;
-			$row[] = $apl->nidn;
-			$row[] = $apl->nama;
-			$row[] = $apl->gelar_depan;
-			$row[] = $apl->gelar_belakang;
-			$row[] = $apl->noktp;
-			$row[] = $apl->notelp;
-			$row[] = $apl->email;
-			$row[] = $apl->temp_lahir;
-			$row[] = $apl->tgl_lahir;
-			$row[] = $apl->alamat;
-			$row[] = $apl->foto;
-			$row[] = $apl->id;
+			$row[] = $dosen->nip;
+			$row[] = $dosen->nidn;
+			$row[] = $dosen->nama;
+			$row[] = $dosen->gelar_depan;
+			$row[] = $dosen->gelar_belakang;
+			$row[] = $dosen->noktp;
+			$row[] = $dosen->notelp;
+			$row[] = $dosen->email;
+			$row[] = $dosen->temp_lahir;
+			$row[] = $dosen->tgl_lahir;
+			$row[] = $dosen->alamat;
+			$row[] = $dosen->foto;
+			$row[] = $dosen->status;
+			$row[] = $dosen->id;
 			$data[] = $row;
 		}
 
@@ -49,26 +50,19 @@ class Data_dosen extends MY_Controller
 		//output to json format
 		echo json_encode($output);
 	}
-
-	public function edit_dosen($id)
-	{
-
-		$data = $this->data_dosen_model->get_dosen($id);
-		echo json_encode($data);
-	}
-
-	public function update()
-	{
-		if (!empty($_FILES['imagefile']['name'])) {
+	
+	public function insert()
+    {
+        if (!empty($_FILES['imagefile']['name'])) {
 			$this->_validate();
 			$id = $this->input->post('id');
 
 			$nama = slug($this->input->post('foto'));
-			$config['upload_path']   = './assets/foto/dosen/';
+			$config['upload_path']   = './assets/uploads/foto/dosen/';
 			$config['allowed_types'] = 'gif|jpg|jpeg|png'; //mencegah upload backdor
-			$config['max_size']      = '2000';
-			$config['max_width']     = '2000';
-			$config['max_height']    = '2000';
+			$config['max_size']      = '3000';
+			$config['max_width']     = '3000';
+			$config['max_height']    = '3000';
 			$config['file_name']     = $nama;
 
 			$this->upload->initialize($config);
@@ -94,10 +88,10 @@ class Data_dosen extends MY_Controller
 
 				if ($g != null) {
 					//hapus gambar yg ada diserver
-					unlink('assets/foto/dosen/' . $g['foto']);
+					unlink('assets/uploads/foto/dosen/' . $g['foto']);
 				}
 
-				$this->data_dosen_model->update_dosen($id, $save);
+				$this->data_dosen_model->insert_data_dosen("mst_dosen", $save);
 				echo json_encode(array("status" => TRUE));
 			} else { //Apabila tidak ada gambar yang di upload
 				$save  = array(
@@ -113,7 +107,7 @@ class Data_dosen extends MY_Controller
 					'tgl_lahir' => $this->input->post('tgl_lahir'),
 					'alamat' => $this->input->post('alamat')
 				);
-				$this->data_dosen_model->update_dosen($id, $save);
+				$this->data_dosen_model->insert_data_dosen("mst_dosen", $save);
 				echo json_encode(array("status" => TRUE));
 			}
 		} else {
@@ -132,10 +126,130 @@ class Data_dosen extends MY_Controller
 				'tgl_lahir' => $this->input->post('tgl_lahir'),
 				'alamat' => $this->input->post('alamat')
 			);
-			$this->data_dosen_model->update_dosen($id, $save);
+			$this->data_dosen_model->insert_data_dosen("mst_dosen", $save);
 			echo json_encode(array("status" => TRUE));
 		}
 	}
+
+	public function update()
+	{
+		if (!empty($_FILES['imagefile']['name'])) {
+			$this->_validate();
+			$id = $this->input->post('id');
+
+			$nama = slug($this->input->post('foto'));
+			$config['upload_path']   = './assets/uploads/foto/dosen/';
+			$config['allowed_types'] = 'gif|jpg|jpeg|png'; //mencegah upload backdor
+			$config['max_size']      = '3000';
+			$config['max_width']     = '3000';
+			$config['max_height']    = '3000';
+			$config['file_name']     = $nama;
+
+			$this->upload->initialize($config);
+
+			if ($this->upload->do_upload('imagefile')) {
+				$gambar = $this->upload->data();
+				$save  = array(
+					'nip' => $this->input->post('nip'),
+					'nidn'    => $this->input->post('nidn'),
+					'nama'       => $this->input->post('nama'),
+					'gelar_depan' => $this->input->post('gelar_depan'),
+					'gelar_belakang'  => $this->input->post('gelar_belakang'),
+					'noktp'  => $this->input->post('noktp'),
+					'notelp'  => $this->input->post('notelp'),
+					'email' => $this->input->post('email'),
+					'temp_lahir' => $this->input->post('temp_lahir'),
+					'tgl_lahir' => $this->input->post('tgl_lahir'),	
+					'alamat' => $this->input->post('alamat'),
+					'foto' => $gambar['file_name']
+				);
+
+				$g = $this->data_dosen_model->getImage($id)->row_array();
+
+				if ($g != null) {
+					//hapus gambar yg ada diserver
+					unlink('assets/uploads/foto/dosen/' . $g['foto']);
+				}
+
+				$this->data_dosen_model->update_data_dosen($id, $save);
+				echo json_encode(array("status" => TRUE));
+			} else { //Apabila tidak ada gambar yang di upload
+				$save  = array(
+					'nip' => $this->input->post('nip'),
+					'nidn'    => $this->input->post('nidn'),
+					'nama'       => $this->input->post('nama'),
+					'gelar_depan' => $this->input->post('gelar_depan'),
+					'gelar_belakang'  => $this->input->post('gelar_belakang'),
+					'noktp'  => $this->input->post('noktp'),
+					'notelp'  => $this->input->post('notelp'),
+					'email' => $this->input->post('email'),
+					'temp_lahir' => $this->input->post('temp_lahir'),
+					'tgl_lahir' => $this->input->post('tgl_lahir'),
+					'alamat' => $this->input->post('alamat')
+				);
+				$this->data_dosen_model->update_data_dosen($id, $save);
+				echo json_encode(array("status" => TRUE));
+			}
+		} else {
+			$this->_validate();
+			$id = $this->input->post('id');
+			$save  = array(
+				'nip' => $this->input->post('nip'),
+				'nidn'    => $this->input->post('nidn'),
+				'nama'       => $this->input->post('nama'),
+				'gelar_depan' => $this->input->post('gelar_depan'),
+				'gelar_belakang'  => $this->input->post('gelar_belakang'),
+				'noktp'  => $this->input->post('noktp'),
+				'notelp'  => $this->input->post('notelp'),
+				'email' => $this->input->post('email'),
+				'temp_lahir' => $this->input->post('temp_lahir'),
+				'tgl_lahir' => $this->input->post('tgl_lahir'),
+				'alamat' => $this->input->post('alamat')
+			);
+			$this->data_dosen_model->update_data_dosen($id, $save);
+			echo json_encode(array("status" => TRUE));
+		}
+	}
+
+	public function viewdosen()
+    {
+        $id = $this->input->post('id');
+        $table = $this->input->post('table');
+        $data['table'] = $table;
+        $data['data_field'] = $this->db->field_data($table);
+        $data['data_table'] = $this->data_dosen_model->view_dosen($id)->result_array();
+        $this->load->view('admin/settings/view', $data);
+    }
+
+	public function update_status()
+    {
+        $id      = $this->input->post('id');
+        $status  = $this->input->post('status');
+        if($status == 0){
+            $data  = array(
+                'status'        => 1,
+            );
+        } else {
+            $data  = array(
+                'status'        => 0,
+            );
+        }
+        $this->data_dosen_model->update_data_dosen($id, $data);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    public function edit_data_dosen($id)
+    {
+        $data = $this->data_dosen_model->get_data_dosen($id);
+        echo json_encode($data);
+    }
+
+    public function delete_data_dosen()
+    {
+        $id = $this->input->post('id');
+        $this->data_dosen_model->delete_data_dosen($id, 'mst_dosen');
+        echo json_encode(array("status" => TRUE));
+    }
 
 	private function _validate()
 	{
