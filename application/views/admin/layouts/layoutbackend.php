@@ -9,6 +9,7 @@ $this->load->view('admin/layouts/header')
 $this->load->view('admin/layouts/menu');
 ?>
 <!-- end menu -->
+
     <!-- Content Header (Page header) -->
     <section class="content-header" style="opacity: 0.8; ">
       <div class="container-fluid">
@@ -18,7 +19,7 @@ $this->load->view('admin/layouts/menu');
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="<?php echo $this->uri->segment(1); ?>">Home</a></li>
+              <li class="breadcrumb-item"><a href="<?php echo base_url('dashboard'); ?>">Home</a></li>
               <li class="breadcrumb-item active"><?php echo ucwords(str_replace('_', ' ', $this->uri->segment(1))); ?></li>
             </ol>
           </div>

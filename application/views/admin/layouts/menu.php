@@ -22,7 +22,7 @@ $apl = $this->db->get("aplikasi")->row();
       <a href="#" class="nav-link">
         <div class="user-panel pb-2 mb-2 d-flex">
           <!-- <div class="image"> -->
-          <img src="<?php echo base_url(); ?>assets/foto/user/<?php echo $this->session->userdata['image']; ?>" class="img-circle elevation-2 d-inline-flex" style="width: 30px;" alt="User Image">
+          <img src="<?php echo base_url(); ?>assets/uploads/foto/user/<?php echo $this->session->userdata['image']; ?>" class="img-circle elevation-2 d-inline-flex" style="width: 30px;" alt="User Image">
           &nbsp; <?php echo $this->session->userdata['full_name']; ?>
         </div>
         <!-- </div> -->
@@ -31,7 +31,7 @@ $apl = $this->db->get("aplikasi")->row();
 
     <!-- <div class="user-panel mt-1 pb-1 mb-1 d-flex">
       <div class="image">
-        <img src="<?php echo base_url(); ?>assets/foto/user/<?php echo $this->session->userdata['image']; ?>" class="img-circle elevation-2" alt="User Image">
+        <img src="<?php echo base_url(); ?>assets/uploads/foto/user/<?php echo $this->session->userdata['image']; ?>" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
         <a href="#" class="text-secondary d-block"><?php echo $this->session->userdata['full_name']; ?></a>
@@ -57,7 +57,7 @@ $apl = $this->db->get("aplikasi")->row();
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
   <a href="<?php echo base_url('dashboard'); ?>" class="brand-link navbar-blue">
-    <img src="<?php echo base_url(); ?>assets/foto/logo/<?php echo $apl->logo; ?>" alt="<?php echo $apl->title; ?>" class="brand-image img-circle elevation-3" style="opacity: 1">
+    <img src="<?php echo base_url(); ?>assets/uploads/foto/logo/<?php echo $apl->logo; ?>" alt="<?php echo $apl->title; ?>" class="brand-image img-circle elevation-3" style="opacity: 1">
     <span class="brand-text font-weight-light"><?php echo  $apl->title; ?></span>
   </a>
 
@@ -66,7 +66,7 @@ $apl = $this->db->get("aplikasi")->row();
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="<?php echo base_url(); ?>assets/foto/user/<?php echo $this->session->userdata['image']; ?>" class="img-circle elevation-2" alt="User Image">
+        <img src="<?php echo base_url(); ?>assets/uploads/foto/user/<?php echo $this->session->userdata['image']; ?>" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
         <a href="#" class="d-block"><?php echo $this->session->userdata['full_name']; ?></a>
@@ -183,9 +183,6 @@ $apl = $this->db->get("aplikasi")->row();
 <script src="<?php echo base_url(); ?>assets/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
 <!-- <script src="<?php echo base_url(); ?>assets/plugins/sparklines/sparkline.js"></script> -->
-<!-- JQVMap -->
-<script src="<?php echo base_url(); ?>assets/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
 <!-- jQuery Knob Chart -->
 <script src="<?php echo base_url(); ?>assets/plugins/jquery-knob/jquery.knob.min.js"></script>
 <!-- daterangepicker -->
@@ -219,8 +216,6 @@ $apl = $this->db->get("aplikasi")->row();
 
 <!-- AdminLTE App -->
 <script src="<?php echo base_url(); ?>assets/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?php echo base_url(); ?>assets/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url(); ?>assets/dist/js/demo.js"></script>
 
