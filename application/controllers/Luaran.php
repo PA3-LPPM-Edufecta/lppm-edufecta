@@ -41,33 +41,15 @@ class Luaran extends MY_Controller
         echo json_encode($output);
     }
 
-    public function editluaran($id)
-    {
-        $data = $this->luaran_model->getLuaran($id);
-        echo json_encode($data);
-    }
-
     public function insert()
     {
         $this->_validate();
         $save  = array(
-            'nama'    => $this->input->post('nama'),
+            'nama'            => $this->input->post('nama'),
             'keterangan'      => $this->input->post('keterangan'),
-            'status'       => $this->input->post('status'),
+            // 'status'       => $this->input->post('status')
         );
-        $this->luaran_model->insertluaran("tbl_luaran", $save);
-        $insert_id = $this->db->insert_id();
-        // $nama_luaran = $this->input->post('nama_luaran');
-        // $get_id= $this->luaran_model->get_by_nama($nama_luaran);
-        $id_level = $this->session->userdata['id_level'];
-        $levels = $this->userlevel_model->getAll()->result();
-        foreach ($levels as $row) {
-            $data = array(
-                'id_luaran' => $insert_id,
-                'id_level'   => $row->id_level,
-            );
-            $this->luaran_model->insert_akses_luaran("tbl_akses_luaran", $data);
-        }
+        $this->luaran_model->insert_luaran("luaran", $save);
         echo json_encode(array("status" => TRUE));
     }
 
@@ -79,18 +61,40 @@ class Luaran extends MY_Controller
         $data  = array(
             'nama'    => $this->input->post('nama'),
             'keterangan'      => $this->input->post('keterangan'),
-            'status'       => $this->input->post('status'),
+            // 'status'       => $this->input->post('status'),
         );
-        $this->luaran_model->updateluaran($id, $data);
+        $this->luaran_model->update_luaran($id, $data);
         echo json_encode(array("status" => TRUE));
     }
+
+    public function edit_luaran($id)
+    {
+        $data = $this->luaran_model->getLuaran($id);
+        echo json_encode($data);
+    }
+
+    public function update_status()
+    {
+        $id      = $this->input->post('id');
+        $status  = $this->input->post('status');
+        if($status == 0){
+            $data  = array(
+                'status'        => 1,
+            );
+        } else {
+            $data  = array(
+                'status'        => 0,
+            );
+        }
+        $this->luaran_model->update_luaran($id, $data);
+        echo json_encode(array("status" => TRUE));
+    }
+
     public function delete()
     {
-        $id_luaran = $this->input->post('id_luaran');
-        $this->luaran_model->deleteluaran($id_luaran, 'tbl_luaran');
-        $this->luaran_model->deleteakses($id_luaran, 'tbl_akses_luaran');
-        $data['status'] = TRUE;
-        echo json_encode($data);
+        $id = $this->input->post('id');
+        $this->luaran_model->delete_luaran($id, 'luaran');
+        echo json_encode(array("status" => TRUE));
     }
 
     private function _validate()
@@ -100,37 +104,16 @@ class Luaran extends MY_Controller
         $data['inputerror'] = array();
         $data['status'] = TRUE;
 
-        if ($this->input->post('nama_luaran') == '') {
-            $data['inputerror'][] = 'nama_luaran';
-            $data['error_string'][] = 'Submenu is required';
+        if ($this->input->post('nama') == '') {
+            $data['inputerror'][] = 'nama';
+            $data['error_string'][] = 'Nama is required';
             $data['minlength'] = '2';
             $data['status'] = FALSE;
         }
 
-        if ($this->input->post('link') == '') {
-            $data['inputerror'][] = 'link';
-            $data['error_string'][] = 'Link is required';
-            $data['minlength'] = '2';
-            $data['status'] = FALSE;
-        }
-
-        if ($this->input->post('icon') == '') {
-            $data['inputerror'][] = 'icon';
-            $data['error_string'][] = 'Icon is required';
-            $data['minlength'] = '2';
-            $data['status'] = FALSE;
-        }
-
-        if ($this->input->post('is_active') == '') {
-            $data['inputerror'][] = 'is_active';
-            $data['error_string'][] = 'Please select Status';
-            $data['minlength'] = '2';
-            $data['status'] = FALSE;
-        }
-
-        if ($this->input->post('id_menu') == '') {
-            $data['inputerror'][] = 'id_menu';
-            $data['error_string'][] = 'Please select Menu';
+        if ($this->input->post('keterangan') == '') {
+            $data['inputerror'][] = 'keterangan';
+            $data['error_string'][] = 'Keterangan is required';
             $data['minlength'] = '2';
             $data['status'] = FALSE;
         }
