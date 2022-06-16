@@ -4,9 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Buku_model extends CI_Model
 {
 	var $table = 'buku';
-	var $column_search = array('kdbuku','nama', 'keterangan', 'sts');
-	var $column_order = array('kdbuku','nama', 'keterangan', 'sts');
-	// var $order = array('id' => 'asc');
+	var $column_search = array('tgl_terbit', 'judul', 'penerbit', 'isbn', 'halaman', 'file_cover', 'file_editorial_board', 'file_penerbit', 'file_lainnya', 'keterangan', 'status');
+	var $column_order = array('tgl_terbit', 'judul', 'penerbit', 'isbn', 'halaman', 'file_cover', 'file_editorial_board', 'file_penerbit', 'file_lainnya', 'keterangan', 'status');
+	var $order = array('id' => 'dsc');
+	
 	function __construct()
 	{
 		parent::__construct();
