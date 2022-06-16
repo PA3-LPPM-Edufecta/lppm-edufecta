@@ -6,7 +6,8 @@ class Luaran_model extends CI_Model
 	var $table = 'luaran';
 	var $column_search = array('nama', 'keterangan', 'status');
 	var $column_order = array('nama', 'keterangan', 'status');
-	// var $order = array('id' => 'asc');
+	var $order = array('id' => 'desc');
+	
 	function __construct()
 	{
 		parent::__construct();
@@ -73,6 +74,12 @@ class Luaran_model extends CI_Model
 	{
 	   return $this->db->get('luaran');
 	}
+
+	function getLuaran($id)
+	{
+		$this->db->where('id', $id);
+		return $this->db->get('luaran')->row();
+	}
 	
 	function insert_luaran($table, $data)
 	{
@@ -84,12 +91,6 @@ class Luaran_model extends CI_Model
 	{
 		$this->db->where('id', $id);
 		$this->db->update('luaran', $data);
-	}
-
-	function getLuaran($id)
-	{
-		$this->db->where('id', $id);
-		return $this->db->get('luaran')->row();
 	}
 
 	function delete_luaran($id, $table)
