@@ -4,9 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Jenis_pencairan_model extends CI_Model
 {
 	var $table = 'jenis_pencairan';
-	var $column_search = array('nama', 'keterangan', 'sts');
-	var $column_order = array('nama', 'keterangan', 'sts');
+	var $column_search = array('nama', 'keterangan', 'status');
+	var $column_order = array('nama', 'keterangan', 'status');
 	var $order = array('id' => 'asc');
+	
 	function __construct()
 	{
 		parent::__construct();
