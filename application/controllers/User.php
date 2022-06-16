@@ -57,11 +57,11 @@ class User extends MY_Controller
             echo json_encode(array("error" => "Username Sudah Ada!!"));
         } else {
             $nama = slug($this->input->post('username'));
-            $config['upload_path']   = './assets/foto/user/';
+            $config['upload_path']   = './assets/uploads/foto/user/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png'; //mencegah upload backdor
-            $config['max_size']      = '1000';
-            $config['max_width']     = '2000';
-            $config['max_height']    = '1024';
+            $config['max_size']      = '3000';
+            $config['max_width']     = '3000';
+            $config['max_height']    = '3000';
             $config['file_name']     = $nama;
 
             $this->upload->initialize($config);
@@ -120,11 +120,11 @@ class User extends MY_Controller
             $id = $this->input->post('id_user');
 
             $nama = slug($this->input->post('username'));
-            $config['upload_path']   = './assets/foto/user/';
+            $config['upload_path']   = './assets/uploads/foto/user/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png'; //mencegah upload backdor
-            $config['max_size']      = '1000';
-            $config['max_width']     = '2000';
-            $config['max_height']    = '1024';
+            $config['max_size']      = '3000';
+            $config['max_width']     = '3000';
+            $config['max_height']    = '3000';
             $config['file_name']     = $nama;
 
             $this->upload->initialize($config);
@@ -156,7 +156,7 @@ class User extends MY_Controller
 
                 if ($g != null) {
                     //hapus gambar yg ada diserver
-                    unlink('assets/foto/user/' . $g['image']);
+                    unlink('assets/uploads/foto/user/' . $g['image']);
                 }
 
                 $this->user_model->updateUser($id, $save);
@@ -215,7 +215,7 @@ class User extends MY_Controller
         $g = $this->user_model->getImage($id)->row_array();
         if ($g != null) {
             //hapus gambar yg ada diserver
-            unlink('assets/foto/user/' . $g['image']);
+            unlink('assets/uploads/foto/user/' . $g['image']);
         }
         $this->user_model->deleteUsers($id, 'tbl_user');
         $data['status'] = TRUE;
