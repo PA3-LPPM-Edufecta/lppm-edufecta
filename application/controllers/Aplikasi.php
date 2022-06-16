@@ -61,11 +61,11 @@ class Aplikasi extends MY_Controller
             $id = $this->input->post('id');
 
             $nama = slug($this->input->post('logo'));
-            $config['upload_path']   = './assets/foto/logo/';
+            $config['upload_path']   = './assets/uploads/foto/logo/';
             $config['allowed_types'] = 'gif|jpg|jpeg|png'; //mencegah upload backdor
-            $config['max_size']      = '1000';
-            $config['max_width']     = '2000';
-            $config['max_height']    = '1024';
+            $config['max_size']      = '3000';
+            $config['max_width']     = '3000';
+            $config['max_height']    = '3000';
             $config['file_name']     = $nama;
 
             $this->upload->initialize($config);
@@ -86,7 +86,7 @@ class Aplikasi extends MY_Controller
 
                 if ($g != null) {
                     //hapus gambar yg ada diserver
-                    unlink('assets/foto/logo/' . $g['logo']);
+                    unlink('assets/uploads/foto/logo/' . $g['logo']);
                 }
 
                 $this->aplikasi_model->updateAplikasi($id, $save);
