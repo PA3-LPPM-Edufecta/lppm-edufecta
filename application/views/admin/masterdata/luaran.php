@@ -1,10 +1,11 @@
+<?php $this->load->view('admin/layouts/tables'); ?>
 <!-- Main content -->
 <section class="content">
   <div class="container-fluid">
     <div class="row">
       <div class="col-12">
         <div class="card">
-          <div class="card-header bg-light">
+          <div class="card-header bg-light elevation-1">
             <h3 class="card-title mt-1"><i class="fa fa-list text-blue"></i> Data Luaran</h3>
             <!-- Card-Tools -->
             <div class="card-tools">
@@ -25,9 +26,8 @@
           </div>
           <!-- /.card-header -->
           <div class="card-body">
-            <div class="text-left mb-4">
-              <button type="button" class="btn btn-sm btn-outline-primary" onclick="add_luaran()" title="Add Data"><i class="fas fa-plus"></i> Add</button>
-              <a href="<?php echo base_url('luaran/download'); ?>" type="button" class="btn btn-sm btn-outline-info" id="dwn_luaran" title="Download"><i class="fas fa-download"></i> Download</a>
+            <div class="text-left mb-5">
+              <button type="button" class="btn btn-primary" onclick="add_luaran()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>
             </div>
             <table id="tabelluaran" class="table table-bordered table-striped table-hover">
               <thead>
@@ -35,7 +35,7 @@
                   <th>Nama</th>
                   <th>Keterangan</th>
                   <th>Status</th>
-                  <th>Aksi</th>
+                  <th style="width: 50px;">Aksi</th>
                 </tr>
               </thead>
               <tbody>
@@ -102,6 +102,48 @@
 
     //datatables
     table = $("#tabelluaran").DataTable({
+      "dom": "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+        "<'row'<'col-sm-12'tr>>" +
+        "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+      "buttons": [{
+          "extend": "pageLength",
+          "className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-dark mr-2',
+        },
+        {
+          "extend": 'excel',
+          "text": '<i class="far fa-file-excel"></i> Excel',
+          "className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
+          "exportOptions": {
+            "columns": ':visible'
+          }
+        },
+        {
+          "extend": 'pdf',
+          "text": '<i class="far fa-file-pdf"></i> PDF',
+          "className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
+          "exportOptions": {
+            "columns": ':visible'
+          }
+        },
+        {
+          "extend": 'print',
+          "text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
+          "className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
+          "autoPrint": false,
+          "exportOptions": {
+            "columns": ':visible'
+          }
+        },
+        {
+          "extend": 'colvis',
+          "className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-primary mr-2',
+        }
+      ],
+      "lengthMenu": [
+        [5, 10, 25, 50, 100, -1],
+        [5, 10, 25, 50, 100, "All"]
+      ],
+      "iDisplayLength": 10,
       "responsive": true,
       "autoWidth": false,
       "language": {
@@ -121,15 +163,33 @@
           "targets": [-1], //last column
           "render": function(data, type, row) {
 
-            return "<a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"vluaran(" + row[4] + ")\"><i class=\"fas fa-eye\"></i></a> <a class=\"btn btn-xs btn-outline-primary\" href=\"javascript:void(0)\" title=\"Edit\" onclick=\"edit_luaran(" + row[4] + ")\"><i class=\"fas fa-edit\"></i></a><a class=\"btn btn-xs btn-outline-danger\" href=\"javascript:void(0)\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delluaran(" + row[4] + ")\"><i class=\"fas fa-trash\"></i></a>"
-
+            // return "<a class=\"btn btn-xs btn-outline-info\" href=\"javascript:void(0)\" title=\"View\" onclick=\"vluaran(" + row[4] + ")\"><i class=\"fas fa-eye\"></i></a> <a class=\"btn btn-xs btn-outline-primary\" href=\"javascript:void(0)\" title=\"Edit\" onclick=\"edit_luaran(" + row[4] + ")\"><i class=\"fas fa-edit\"></i></a><a class=\"btn btn-xs btn-outline-danger\" href=\"javascript:void(0)\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delluaran(" + row[4] + ")\"><i class=\"fas fa-trash\"></i></a>"
+            if (row[2] == 0) {
+              return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                    <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_luaran(` + row[3] + `)">Edit</a></li>
+                    <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delluaran(` + row[3] + `)">Hapus</a></li>
+                    <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[3] + `,` + row[2] + `)">Set Status Aktif</a></li>
+                </ul>
+							`;
+            } else {
+              return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                  <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_luaran(` + row[3] + `)">Edit</a></li>
+                  <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delluaran(` + row[3] + `)">Hapus</a></li>
+                  <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[3] + `,` + row[2] + `)">Set Status Tidak Aktif</a></li>
+								</ul>
+							`;
+            }
           },
           "orderable": false, //set not orderable
         },
         {
-          "targets": [-2],
+          "targets": [2],
           "render": function(data, type, row) {
-            if (row[4] == "Y") {
+            if (row[2] == 1) {
               return "Aktif";
             } else {
               return "Tidak Aktif";
@@ -188,9 +248,26 @@
 
   }
 
+  function update_status(id, status) {
+    $.ajax({
+      url: "<?php echo site_url('luaran/update_status'); ?>",
+      type: "POST",
+      data: {
+        id: id,
+        status: status
+      },
+      dataType: "JSON",
+      success: function(data) {
+        reload_table();
+        Toast.fire({
+          icon: 'success',
+          title: 'Success!!.'
+        });
+      }
+    });
+  }
 
   function delluaran(id) {
-
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -204,7 +281,7 @@
         $.ajax({
           url: "<?php echo site_url('luaran/delete'); ?>",
           type: "POST",
-          data: "id_luaran=" + id,
+          data: "id=" + id,
           cache: false,
           dataType: 'json',
           success: function(respone) {
@@ -234,7 +311,6 @@
   }
 
 
-
   function add_luaran() {
     save_method = 'add';
     $('#form')[0].reset(); // reset form on modals
@@ -252,12 +328,12 @@
 
     //Ajax Load data from ajax
     $.ajax({
-      url: "<?php echo site_url('luaran/editluaran') ?>/" + id,
+      url: "<?php echo site_url('luaran/edit_luaran') ?>/" + id,
       type: "GET",
       dataType: "JSON",
       success: function(data) {
 
-        // $('[name="id"]').val(data.id);
+        $('[name="id"]').val(data.id);
         $('[name="nama"]').val(data.nama);
         $('[name="keterangan"]').val(data.keterangan);
         $('[name="status"]').val(data.status);
@@ -319,51 +395,42 @@
   }
 </script>
 
-
-
 <!-- Bootstrap modal -->
 <div class="modal fade" id="modal_form" role="dialog">
   <div class="modal-dialog">
-  <div class="modal-content ">
-			<div class="modal-header">
-				<h3 class="modal-title">Luaran</h3>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body form">
-				<form action="#" id="form" class="form-horizontal">
-					<input type="hidden" value="" name="id" />
-					<div class="card-body">
-						<div class="form-group row ">
-							<label for="nama" class="col-sm-3 col-form-label">Nama</label>
-							<div class="col-sm-9 kosong">
-								<input type="text" class="form-control selector-nama" name="nama" id="nama" placeholder="Nama Bidang Ilmu">
-								<span class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group row ">
-							<label for="keterangan" class="col-sm-3 col-form-label">Keterangan</label>
-							<div class="col-sm-9 kosong">
-								<textarea type="text" class="form-control selector-keterangan" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
-								<span class="help-block"></span>
-							</div>
-						</div>
-						<div class="form-group row ">
-							<label for="status" class="col-sm-3 col-form-label">Status</label>
-							<div class="col-sm-9 kosong">
-								<input type="number" min="0" max="1" maxlength="1" class="form-control selector-status" name="status" id="status" placeholder="0 or 1">
-								<span class="help-block"></span>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div class="modal-footer">
-				<button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-			</div>
-		</div><!-- /.modal-content -->
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h3 class="modal-title">Luaran</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body form">
+        <form action="#" id="form" class="form-horizontal">
+          <input type="hidden" value="" name="id" />
+          <div class="card-body">
+            <div class="form-group row ">
+              <label for="nama" class="col-sm-3 col-form-label">Nama</label>
+              <div class="col-sm-9 kosong">
+                <input type="text" class="form-control selector-nama" name="nama" id="nama" placeholder="Nama Luaran">
+                <span class="help-block"></span>
+              </div>
+            </div>
+            <div class="form-group row ">
+              <label for="keterangan" class="col-sm-3 col-form-label">Keterangan</label>
+              <div class="col-sm-9 kosong">
+                <textarea type="text" class="form-control selector-keterangan" name="keterangan" id="keterangan" placeholder="Keterangan"></textarea>
+                <span class="help-block"></span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Bootstrap modal -->

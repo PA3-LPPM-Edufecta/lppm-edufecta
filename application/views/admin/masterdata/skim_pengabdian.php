@@ -7,14 +7,15 @@
     z-index: 1051;
 }
 </style>
+<?php $this->load->view('admin/layouts/tables');?>
 <!-- Main content -->
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
-					<div class="card-header bg-light">
-						<h3 class="card-title mt-1"><i class="<?php echo $this->db->get('tbl_submenu')->row(6)->icon; ?> text-blue"></i> Data Skim Pengabdian</h3>
+					<div class="card-header bg-light elevation-1"">
+						<h3 class="card-title mt-1"><i class="fa fa-list text-blue"></i> Data Skim Pengabdian</h3>
 						<!-- Card-Tools -->
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool text-blue" data-card-widget="card-refresh" data-source="/lppm/skim_pengabdian" data-source-selector="#card-refresh-content" data-load-on-init="false">
@@ -34,8 +35,8 @@
 					</div>
 					<!-- /.card-header -->
 					<div class="card-body">
-						<div class="text-left mb-4">
-							<button type="button" class="btn btn-sm btn-outline-primary" onclick="add_skim_pengabdian()" title="Add Data"><i class="fas fa-plus"></i> Add</button>
+						<div class="text-left mb-5">
+							<button type="button" class="btn btn-primary" onclick="add_skim_pengabdian()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>
 						</div>
 						<table id="tbl_skim_pengabdian" class="table table-bordered table-striped table-hover">
 							<thead>
@@ -75,6 +76,49 @@
 
 		//datatables
 		table = $("#tbl_skim_pengabdian").DataTable({
+            "dom": "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			"buttons": [
+				{
+					"extend": "pageLength",
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-dark mr-2',
+				},
+				{
+					"extend": 'excel',
+					"text": '<i class="far fa-file-excel"></i> Excel',
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'pdf',
+					"text": '<i class="far fa-file-pdf"></i> PDF',
+					"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'print',
+					"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
+					"autoPrint": false,
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'colvis',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-primary mr-2',
+				}
+			],
+			"lengthMenu": [
+				[5, 10, 25, 50, 100, -1],
+				[5, 10, 25, 50, 100, "All"]
+			],
+			"iDisplayLength": 10,
 			"responsive": true,
 			drawCallback: function() {
 					$('.dt-select2').select2();
@@ -102,18 +146,18 @@
 							return `
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Edit" data-role="edit" onclick="edit_skim_pengabdian(`+row[8]+`)">Edit</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Delete" nama=" + row[0] + "  onclick="delskimpengabdian(`+row[8]+`)">Hapus</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Status" onclick="update_status(`+row[8]+`,` +row[7]+`)">Set Status Aktif</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_skim_pengabdian(`+row[8]+`)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delskimpengabdian(`+row[8]+`)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(`+row[8]+`,` +row[7]+`)">Set Status Aktif</a></li>
 								</ul>
 							`;
 						} else {
 							return `
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Edit" data-role="edit" onclick="edit_skim_pengabdian(`+row[8]+`)">Edit</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Delete" nama=" + row[0] + "  onclick="delskimpengabdian(`+row[8]+`)">Hapus</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Status" onclick="update_status(`+row[8]+`,` +row[7]+`)">Set Status Tidak Aktif</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_skim_pengabdian(`+row[8]+`)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delskimpengabdian(`+row[8]+`)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(`+row[8]+`,` +row[7]+`)">Set Status Tidak Aktif</a></li>
 								</ul>
 							`;
 						}

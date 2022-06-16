@@ -1,10 +1,14 @@
+<?php $this->load->view('admin/layouts/tables');?>
+<script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/datetime-moment.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.12.1/dataRender/datetime.js"></script>
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header bg-light">
+                    <div class="card-header bg-light elevation-1">
                         <h3 class="card-title mt-1"><i class="fa fa-list text-blue"></i> Data Dosen</h3>
                         <!-- Card-Tools -->
                         <div class="card-tools">
@@ -25,26 +29,22 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="btn-left btn-blue">
-                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="add_dosen()" title="Add Data"><i class="fas fa-plus"></i> Add</button>
-                            <a href="<?= base_url('data_dosen/download'); ?>" type="button" class="btn btn-sm btn-outline-info" title="Download" target="_blank"><i class="fas fa-download"></i> Download</a>
+                        <div class="text-left mb-5">
+                            <button type="button" class="btn btn-primary" onclick="add_data_dosen()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>
                         </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table id="tabeldosen" class="table table-bordered table-striped table-hover">
+                        <table id="mst_dosen" class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr class="bg-blue">
                                     <th>NIP</th>
                                     <th>NIDN</th>
-                                    <th>Nama</th>
+                                    <th>Nama Dosen</th>
                                     <th>G. Depan</th>
                                     <th>G. Belakang</th>
                                     <th>No. KTP</th>
                                     <th>No. Telp</th>
                                     <th>Email</th>
-                                    <th>Temp, Tgl Lahir</th>
-                                    <th>Tgl. Lahir</th>
+                                    <th>Tempat Lahir</th>
+                                    <th>Temp, Tgl. Lahir</th>
                                     <th>Alamat</th>
                                     <th>Foto</th>
                                     <th>Status</th>
@@ -66,14 +66,76 @@
     <!-- /.container-fluid -->
 </section>
 
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title ">View</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center" id="md_def">
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
 <script type="text/javascript">
     var save_method; //for save method string
     var table;
 
     $(document).ready(function() {
+        $.fn.dataTable.moment('DD-MM-YYYY');
 
         //datatables
-        table = $("#tabeldosen").DataTable({
+        table = $("#mst_dosen").DataTable({
+            "dom": "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			"buttons": [
+				{
+					"extend": "pageLength",
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-dark mr-2',
+				},
+				{
+					"extend": 'excel',
+					"text": '<i class="far fa-file-excel"></i> Excel',
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'pdf',
+					"text": '<i class="far fa-file-pdf"></i> PDF',
+					"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'print',
+					"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
+					"autoPrint": false,
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'colvis',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-primary mr-2',
+				}
+			],
+			"lengthMenu": [
+				[5, 10, 25, 50, 100, -1],
+				[5, 10, 25, 50, 100, "All"]
+			],
+			"iDisplayLength": 10,
             "responsive": true,
             "autoWidth": false,
             "language": {
@@ -93,41 +155,71 @@
                     "targets": [-1], //last column
                     "render": function(data, type, row) {
 
-                        return "<a class=\"btn btn-xs btn-outline-primary\" href=\"javascript:void(0)\" title=\"Edit\" onclick=\"edit_dosen(" + row[9] + ")\"><i class=\"fas fa-edit\"></i></a>";
-
+                        if (row[12] == 0) {
+                            return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                                <li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="View" onclick="vdosen(` + row[13] + `)">View</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_data_dosen(` + row[13] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="deldosen(` + row[13] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[13] + `,` + row[12] + `)">Set Status Aktif</a></li>
+								</ul>
+							`;
+                        } else {
+                            return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                                <li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="View" onclick="vdosen(` + row[13] + `)">View</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_data_dosen(` + row[13] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[13] + `,` + row[12] + `)">Set Status Tidak Aktif</a></li>
+								</ul>
+							`;
+                        }
                     },
 
                     "orderable": false, //set not orderable
                 },
                 {
-                    "targets": [3,4],
+                    "targets": [0, 1, 3, 4],
                     "visible": false,
                 },
                 {
                     "targets": [2],
-                    "render": function(data, type, row){
-                        return row[3] + '. '+ row[2] + ', '+  row[4];
+                    "render": function(data, type, row) {
+                        return row[3] + ' ' + row[2] + ', ' + row[4] + '<br><br>NIDN: ' + row[1];
                     }
                 },
                 {
-                    "targets": [9],
+                    "targets": [8],
                     "visible": false,
                 },
                 {
-                    "targets": [8],
-                    "render": function(data, type, row, date){
-                        return data + ', ' + row[9];
+                    "targets": [9],
+                    "render": function(data, type, row) {
+                        return row[8] + ', ' + moment(new Date(data).toString()).format('DD-MM-YYYY');
                     }
                 },
                 {
                     "targets": [11],
                     "render": function(data, type, row) {
-                        if (row[8] != null) {
-                            return "<img class=\"img img-responsive img-thumbnail\"  src='<?php echo base_url("assets/foto/dosen/"); ?>" + row[11] + "' width=\"100px\" height=\"100px\">";
+                        if (row[11] != null) {
+                            return "<img class=\"img img-responsive img-thumbnail\"  src='<?php echo base_url("assets/uploads/foto/dosen/"); ?>" + row[11] + "' width=\"100px\" height=\"100px\">";
                         } else {
-                            return "<img class=\"myImgx\"  src='<?php echo base_url("assets/foto/user/default.png"); ?>' width=\"100px\" height=\"100px\">";
+                            return "<img class=\"myImgx\"  src='<?php echo base_url("assets/uploads/foto/user/default.png"); ?>' width=\"100px\" height=\"100px\">";
                         }
-                    }
+                    },
+                    "orderable": false,
+                },
+                {
+                    "targets": [12],
+                    "render": function(data, type, row) {
+                        if (row[12] == 1) {
+                            return 'Aktif';
+                        } else {
+                            return 'Tidak Aktif';
+                        }
+                    },
+                    "orderable": false,
                 },
             ],
         });
@@ -151,7 +243,79 @@
 
     });
 
-    function add_dosen() {
+    function reload_table() {
+        table.ajax.reload(null, false); //reload datatable ajax 
+    }
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
+
+    function deldosen(id) {
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: "<?php echo site_url('data_dosen/delete_data_dosen'); ?>",
+                    type: "POST",
+                    data: "id=" + id,
+                    cache: false,
+                    dataType: 'json',
+                    success: function(respone) {
+                        if (respone.status == true) {
+                            reload_table();
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            );
+                        } else {
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'Delete Error!!.'
+                            });
+                        }
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                )
+            }
+        })
+    }
+
+    //view
+    function vdosen(id) {
+        $('#form')[0].reset(); // reset form on modals
+        $('.form-group').removeClass('has-error'); // clear error class
+        $('.help-block').empty(); // clear error string
+        $('.modal-title').text('View Dosen');
+        $("#modal-default").modal('show');
+        $.ajax({
+            url: '<?php echo base_url('data_dosen/viewdosen'); ?>',
+            type: 'post',
+            data: 'table=mst_dosen&id=' + id,
+            success: function(respon) {
+                $("#md_def").html(respon);
+            }
+        })
+    }
+
+    function add_data_dosen() {
         save_method = 'add';
         $('#form')[0].reset(); // reset form on modals
         $('.form-group').removeClass('has-error'); // clear error class
@@ -163,8 +327,26 @@
         $('.modal-title').text('Add Dosen'); // Set Title to Bootstrap modal title
     }
 
+    function update_status(id, status) {
+        $.ajax({
+            url: "<?php echo site_url('data_dosen/update_status'); ?>",
+            type: "POST",
+            data: {
+                id: id,
+                status: status
+            },
+            dataType: "JSON",
+            success: function(data) {
+                reload_table();
+                Toast.fire({
+                    icon: 'success',
+                    title: 'Success!!.'
+                });
+            }
+        });
+    }
 
-    function edit_dosen(id) {
+    function edit_data_dosen(id) {
         save_method = 'update';
         $('#form')[0].reset(); // reset form on modals
         $('.form-group').removeClass('has-error'); // clear error class
@@ -172,7 +354,7 @@
 
         //Ajax Load data from ajax
         $.ajax({
-            url: "<?php echo site_url('data_dosen/edit_dosen') ?>/" + id,
+            url: "<?php echo site_url('data_dosen/edit_data_dosen') ?>/" + id,
             type: "GET",
             dataType: "JSON",
             success: function(data) {
@@ -190,10 +372,10 @@
                 $('[name="tgl_lahir"]').val(data.tgl_lahir);
                 $('[name="alamat"]').val(data.alamat);
                 if (data.foto == null) {
-                    var image = "<?php echo base_url('assets/foto/user/default.png') ?>";
+                    var image = "<?php echo base_url('assets/uploads/foto/user/default.png') ?>";
                     $("#v_image").attr("src", image);
                 } else {
-                    var image = "<?php echo base_url('assets/foto/dosen/') ?>";
+                    var image = "<?php echo base_url('assets/uploads/foto/dosen/') ?>";
                     $("#v_image").attr("src", image + data.foto);
                 }
                 $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
@@ -209,7 +391,11 @@
     function save() {
         $('#btnSave').text('saving...'); //change button text
         $('#btnSave').attr('disabled', true); //set button disable 
-        var url = "<?php echo site_url('data_dosen/update') ?>";
+        if (save_method == 'add') {
+            var url = "<?php echo site_url('data_dosen/insert') ?>";
+        } else {
+            var url = "<?php echo site_url('data_dosen/update') ?>";
+        }
         var formdata = new FormData($('#form')[0]);
         // ajax adding data to database
         $.ajax({
@@ -308,7 +494,7 @@
                         <div class="form-group row ">
                             <label for="gelar_belakang" class="col-sm-3 col-form-label">Gelar Belakang</label>
                             <div class="col-sm-9 kosong">
-                                <input type="text" class="form-control" name="gelar_belakang" id="gelar_belakang" placeholder="Gelar_Belakang">
+                                <input type="text" class="form-control" name="gelar_belakang" id="gelar_belakang" placeholder="Gelar Belakang">
                                 <span class="help-block"></span>
                             </div>
                         </div>

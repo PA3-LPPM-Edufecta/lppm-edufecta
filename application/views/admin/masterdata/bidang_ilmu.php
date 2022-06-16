@@ -1,11 +1,13 @@
+<?php $this->load->view('admin/layouts/tables');?>
+
 <!-- Main content -->
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
-					<div class="card-header bg-light">
-						<h3 class="card-title mt-1"><i class="<?php echo $this->db->get('tbl_submenu')->row(6)->icon; ?> text-blue"></i> Data Bidang Ilmu</h3>
+					<div class="card-header bg-light elevation-1">
+						<h3 class="card-title mt-1"><i class="fa fa-list text-blue"></i> Data Bidang Ilmu</h3>
 						<!-- Card-Tools -->
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool text-blue" data-card-widget="card-refresh" data-source="/lppm/bidang_ilmu" data-source-selector="#card-refresh-content" data-load-on-init="false">
@@ -25,8 +27,8 @@
 					</div>
 					<!-- /.card-header -->
 					<div class="card-body">
-						<div class="text-left mb-4">
-							<button type="button" class="btn btn-sm btn-outline-primary" onclick="add_bidang_ilmu()" title="Add Data"><i class="fas fa-plus"></i> Add</button>
+						<div class="text-left mb-5">
+							<button type="button" class="btn btn-primary" onclick="add_bidang_ilmu()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>
 						</div>
 						<table id="tbl_bidang_ilmu" class="table table-bordered table-striped table-hover">
 							<thead>
@@ -62,8 +64,51 @@
 
 		//datatables
 		table = $("#tbl_bidang_ilmu").DataTable({
+			"dom": "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			"buttons": [
+				{
+					"extend": "pageLength",
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-dark mr-2',
+				},
+				{
+					"extend": 'excel',
+					"text": '<i class="far fa-file-excel"></i> Excel',
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'pdf',
+					"text": '<i class="far fa-file-pdf"></i> PDF',
+					"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'print',
+					"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
+					"autoPrint": false,
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'colvis',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-primary mr-2',
+				}
+			],
+			"lengthMenu": [
+				[5, 10, 25, 50, 100, -1],
+				[5, 10, 25, 50, 100, "All"]
+			],
+			"iDisplayLength": 10,
 			"responsive": true,
-			"autoWidth": false,
+			"autoWidth": true,
 			"language": {
 				"sEmptyTable": "Data Bidang Ilmu Belum Ada"
 			},
@@ -82,43 +127,43 @@
 					"render": function(data, type, row) {
 
 						// return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_bidang_ilmu(" + row[4] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delbidangilmu(" + row[4] + ")\">Hapus</a></li></center></ul>";
-						if(row[3]==0){
+						if (row[3] == 0) {
 							return `
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Lihat" data-role="edit" onclick="lihat_sub_bidang_ilmu(`+row[4]+`)">Lihat Sub Bidang Ilmu</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Edit" data-role="edit" onclick="edit_bidang_ilmu(`+row[4]+`)">Edit</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Delete" nama=" + row[0] + "  onclick="delbidangilmu(`+row[4]+`)">Hapus</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Status" onclick="update_status(`+row[4]+`,` +row[3]+`)">Set Status Aktif</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Lihat" data-role="edit" onclick="lihat_sub_bidang_ilmu(` + row[4] + `)">Lihat Sub Bidang Ilmu</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_bidang_ilmu(` + row[4] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delbidangilmu(` + row[4] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[4] + `,` + row[3] + `)">Set Status Aktif</a></li>
 								</ul>
 							`;
 						} else {
 							return `
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Lihat" data-role="edit" onclick="lihat_sub_bidang_ilmu(`+row[4]+`)">Lihat Sub Bidang Ilmu</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Edit" data-role="edit" onclick="edit_bidang_ilmu(`+row[4]+`)">Edit</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Delete" nama=" + row[0] + "  onclick="delbidangilmu(`+row[4]+`)">Hapus</a></li>
-								<li><a href="javascript:void(0)" class="dropdown-item" title="Status" onclick="update_status(`+row[4]+`,` +row[3]+`)">Set Status Tidak Aktif</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Lihat" data-role="edit" onclick="lihat_sub_bidang_ilmu(` + row[4] + `)">Lihat Sub Bidang Ilmu</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_bidang_ilmu(` + row[4] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delbidangilmu(` + row[4] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[4] + `,` + row[3] + `)">Set Status Tidak Aktif</a></li>
 								</ul>
 							`;
 						}
-						// return "<a class=\"btn btn-xs btn-outline-primary\" href=\"javascript:void(0)\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_bidang_ilmu(" + row[4] + ")\"><i class=\"fas fa-edit\"></i></a><a class=\"btn btn-xs btn-outline-danger\" href=\"javascript:void(0)\" title=\"Delete\" nama=" + row[3] + "  onclick=\"delbidangilmu(" + row[4] + ")\"><i class=\"fas fa-trash\"></i></a>";
 
 					},
 
 					"orderable": false, //set not orderable
-				},{
+				},
+				{
 					"targets": [3],
-                    "render": function(data, type, row) {
-                        if(data == 1){
+					"render": function(data, type, row) {
+						if (data == 1) {
 							return 'Aktif';
 						} else {
 							return 'Tidak Aktif';
 						}
-                    },
-                    "orderable": false,
-                }
+					},
+					"orderable": false,
+				}
 
 			],
 		});
@@ -154,7 +199,7 @@
 	});
 
 	//lihat sub bidang ilmu
-	function lihat_sub_bidang_ilmu(id){
+	function lihat_sub_bidang_ilmu(id) {
 		url = "<?php echo site_url('sub_bidang_ilmu') ?>?id=" + id;
 		window.location = url;
 	}
@@ -223,8 +268,8 @@
 			type: "GET",
 			dataType: "JSON",
 			success: function(data) {
-				
-                $('[name="id"]').val(data.id);
+
+				$('[name="id"]').val(data.id);
 				$('[name="nama"]').val(data.nama);
 				$('[name="keterangan"]').val(data.keterangan);
 				// $('[name="status"]').val(data.status);
@@ -238,18 +283,21 @@
 		});
 	}
 
-	function update_status(id, status){
+	function update_status(id, status) {
 		$.ajax({
 			url: "<?php echo site_url('bidang_ilmu/update_status'); ?>",
 			type: "POST",
-			data: {id: id, status: status},
+			data: {
+				id: id,
+				status: status
+			},
 			dataType: "JSON",
 			success: function(data) {
-					reload_table();
-					Toast.fire({
-						icon: 'success',
-						title: 'Success!!.'
-					});
+				reload_table();
+				Toast.fire({
+					icon: 'success',
+					title: 'Success!!.'
+				});
 			}
 		});
 	}
@@ -314,7 +362,7 @@
 			</div>
 			<div class="modal-body form">
 				<form action="#" id="form" class="form-horizontal">
-                    <input type="hidden" value="" name="id" />
+					<input type="hidden" value="" name="id" />
 					<div class="card-body">
 						<div class="form-group row ">
 							<label for="nama" class="col-sm-3 col-form-label">Nama Bidang Ilmu</label>

@@ -1,10 +1,11 @@
+<?php $this->load->view('admin/layouts/tables');?>
 <!-- Main content -->
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
-					<div class="card-header bg-light">
+					<div class="card-header bg-light elevation-1">
 						<h3 class="card-title mt-1"><i class="<?php echo $this->db->get('tbl_submenu')->row(6)->icon; ?> text-blue"></i> Data Buku</h3>
 						<!-- Card-Tools -->
 						<div class="card-tools">
@@ -25,14 +26,21 @@
 					</div>
 					<!-- /.card-header -->
 					<div class="card-body">
-						<div class="text-left mb-4">
-							<button type="button" class="btn btn-sm btn-outline-primary" onclick="add_buku()" title="Add Data"><i class="fas fa-plus"></i> Add</button>
+						<div class="text-left mb-5">
+							<button type="button" class="btn btn-primary" onclick="add_buku()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>
 						</div>
 						<table id="tbl_buku" class="table table-bordered table-striped table-hover">
 							<thead>
 								<tr class="bg-blue">
-									<th>Kode Buku</th>
-									<th>Nama</th>
+									<th>Tanggal Terbit</th>
+									<th>Judul</th>
+									<th>Penerbit</th>
+									<th>ISBN</th>
+									<th>Jumlah Halaman</th>
+									<th>File Cover</th>
+									<th>File Editorial Board</th>
+									<th>File Penerbit</th>
+									<th>File Lainnya</th>
 									<th>Keterangan</th>
 									<th>Status</th>
 									<th style="width: 50px;">Aksi</th>
@@ -62,6 +70,49 @@
 
 		//datatables
 		table = $("#tbl_buku").DataTable({
+            "dom": "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			"buttons": [
+				{
+					"extend": "pageLength",
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-dark mr-2',
+				},
+				{
+					"extend": 'excel',
+					"text": '<i class="far fa-file-excel"></i> Excel',
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'pdf',
+					"text": '<i class="far fa-file-pdf"></i> PDF',
+					"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'print',
+					"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
+					"autoPrint": false,
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'colvis',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-primary mr-2',
+				}
+			],
+			"lengthMenu": [
+				[5, 10, 25, 50, 100, -1],
+				[5, 10, 25, 50, 100, "All"]
+			],
+			"iDisplayLength": 10,
 			"responsive": true,
 			"autoWidth": false,
 			"language": {
@@ -80,18 +131,29 @@
 			"columnDefs": [{
 					"targets": [-1], //last column
 					sortable: true,
-                    searchable: true,
+					searchable: true,
 					"render": function(data, type, row) {
-						// if(type === 'display'){
-                        //    data = "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_buku(" + row[4] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delbuku(" + row[4] + ")\">Hapus</a></li></center></ul>";
-                        // }
-
-						// `<a id=\"dropdownSubMenu1\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\">
 						
-						// return data;
-						return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_buku(" + row[4] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delbuku(" + row[4] + ")\">Hapus</a></li></center></ul>";
-						// return "<a href=\"javascript:void(0)\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_buku(" + row[4] + ")\">Edit</a><a href=\"javascript:void(0)\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delbuku(" + row[4] + ")\">Hapus</a>";
-
+						// return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_buku(" + row[4] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delbuku(" + row[4] + ")\">Hapus</a></li></center></ul>";
+						if (row[4] == 0) {
+                            return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_buku(` + row[4] + `)">Edit</a></li>
+									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delbuku(` + row[4] + `)">Hapus</a></li>
+									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[4] + `,` + row[3] + `)">Set Status Aktif</a></li>
+								</ul>
+							`;
+                        } else {
+                            return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_buku(` + row[4] + `)">Edit</a></li>
+									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delbuku(` + row[4] + `)">Hapus</a></li>
+									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[4] + `,` + row[3] + `)">Set Status Tidak Aktif</a></li>
+								</ul>
+							`;
+                        }
 					},
 
 					"orderable": false, //set not orderable
@@ -99,7 +161,7 @@
 				{
 					"targets": [3],
 					sortable: true,
-                    searchable: true,
+					searchable: true,
 					"render": function(data, type, row) {
 						if (data == 1) {
 							return 'Aktif';
@@ -209,9 +271,44 @@
 			success: function(data) {
 
 				$('[name="id"]').val(data.id);
-				$('[name="nama"]').val(data.nama);
+				$('[name="judul"]').val(data.judul);
+				$('[name="penerbit"]').val(data.penerbit);
+				$('[name="isbn"]').val(data.isbn);
+				$('[name="halaman"]').val(data.halaman);
+				if (data.file_cover == null) {
+					var image = "<?php echo base_url('assets/uploads/foto/foto/default-150x150.png') ?>";
+					$("#v_image").attr("src", image);
+				} else {
+					var image = "<?php echo base_url('assets/uploads/foto/cover/') ?>";
+					$("#v_image").attr("src", image + data.file_cover);
+				};
+				if (data.file_editorial_board == null) {
+					var image = "<?php echo base_url('assets/uploads/foto/foto/default-150x150.png') ?>";
+					$("#v_image").attr("src", image);
+				} else {
+					var image = "<?php echo base_url('assets/uploads/foto/cover/') ?>";
+					$("#v_image").attr("src", image + data.file_editorial_board);
+				};
+				if (data.file_penerbit == null) {
+					var image = "<?php echo base_url('assets/uploads/foto/foto/default-150x150.png') ?>";
+					$("#v_image").attr("src", image);
+				} else {
+					var image = "<?php echo base_url('assets/uploads/foto/cover/') ?>";
+					$("#v_image").attr("src", image + data.file_cover);
+				};
+				if (data.file_lainnya == null) {
+					var image = "<?php echo base_url('assets/uploads/foto/foto/default-150x150.png') ?>";
+					$("#v_image").attr("src", image);
+				} else {
+					var image = "<?php echo base_url('assets/uploads/foto/cover/') ?>";
+					$("#v_image").attr("src", image + data.file_lainnya);
+				};
+				// $('[name="file_cover"]').val(data.file_cover);
+				// $('[name="file_editorial_board"]').val(data.file_editorial_board);
+				// $('[name="file_penerbit"]').val(data.file_penerbit);
+				// $('[name="file_lainnya"]').val(data.file_lainnya);
 				$('[name="keterangan"]').val(data.keterangan);
-				$('[name="sts"]').val(data.sts);
+				$('[name="status"]').val(data.status);
 				$('#modal_form').modal('show'); // show bootstrap modal when complete loaded
 				$('.modal-title').text('Edit Buku'); // Set title to Bootstrap modal title
 
@@ -221,32 +318,6 @@
 			}
 		});
 	}
-
-	// function edit_status(id) {
-	// 	save_method = 'update';
-	// 	$('#form')[0].reset(); // reset form on modals
-	// 	$('.form-group').removeClass('has-error'); // clear error class
-	// 	$('.help-block').empty(); // clear error string
-
-	// 	//Ajax Load data from ajax
-	// 	$.ajax({
-	// 		url: "<?php echo site_url('buku/edit_status') ?>/" + id,
-	// 		type: "GET",
-	// 		dataType: "JSON",
-	// 		success: function(data) {
-
-	// 			$('[name="id"]').val(data.id);
-	// 			$('[name="sts"]').val(data.sts);
-	// 			$('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-	// 			$('.modal-title').text('Edit Status'); // Set title to Bootstrap modal title
-
-	// 		},
-	// 		error: function(jqXHR, textStatus, errorThrown) {
-	// 			alert('Error get data from ajax');
-	// 		}
-	// 	});
-	// }
-
 
 	function save() {
 		$('#btnSave').text('saving...'); //change button text
@@ -292,6 +363,10 @@
 			}
 		});
 	}
+	var loadFile = function(event) {
+		var image = document.getElementById('v_image');
+		image.src = URL.createObjectURL(event.target.files[0]);
+	};
 </script>
 
 
@@ -310,12 +385,69 @@
 					<input type="hidden" value="" name="id" />
 					<div class="card-body">
 						<div class="form-group row ">
-							<label for="nama" class="col-sm-3 col-form-label">Nama Buku</label>
+							<label for="judul" class="col-sm-3 col-form-label">Judul</label>
 							<div class="col-sm-9 kosong">
-								<input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Buku">
+								<input type="text" class="form-control" name="judul" id="judul" placeholder="Judul">
 								<span class="help-block"></span>
 							</div>
 						</div>
+
+						<div class="form-group row ">
+							<label for="penerbit" class="col-sm-3 col-form-label">Penerbit</label>
+							<div class="col-sm-9 kosong">
+								<input type="text" class="form-control" name="penerbit" id="penerbit" placeholder="Penerbit">
+								<span class="help-block"></span>
+							</div>
+						</div>
+
+						<div class="form-group row ">
+							<label for="isbn" class="col-sm-3 col-form-label">ISBN</label>
+							<div class="col-sm-9 kosong">
+								<input type="text" class="form-control" name="isbn" id="isbn" placeholder="ISBN">
+								<span class="help-block"></span>
+							</div>
+						</div>
+
+						<div class="form-group row ">
+							<label for="halaman" class="col-sm-3 col-form-label">Jumlah Halaman</label>
+							<div class="col-sm-9 kosong">
+								<input type="text" class="form-control" name="halaman" id="halaman" placeholder="Jumlah Halaman">
+								<span class="help-block"></span>
+							</div>
+						</div>
+
+						<div class="form-group row ">
+							<label for="file_cover" class="col-sm-3 col-form-label">File Cover</label>
+							<div class="col-sm-9 kosong">
+								<img id="v_image" width="100px" height="100px">
+								<input type="file" class="form-control btn-file" onchange="loadFile(event)" name="imagefile" id="imagefile" placeholder="Image" value="UPLOAD">
+							</div>
+						</div>
+
+						<div class="form-group row ">
+							<label for="file_editorial_board" class="col-sm-3 col-form-label">File Editorial Board</label>
+							<div class="col-sm-9 kosong">
+								<img id="v_image" width="100px" height="100px">
+								<input type="file" class="form-control btn-file" onchange="loadFile(event)" name="imagefile2" id="imagefile2" placeholder="Image" value="UPLOAD">
+							</div>
+						</div>
+
+						<div class="form-group row ">
+							<label for="file_penerbit" class="col-sm-3 col-form-label">File Penerbit</label>
+							<div class="col-sm-9 kosong">
+								<img id="v_image" width="100px" height="100px">
+								<input type="file" class="form-control btn-file" onchange="loadFile(event)" name="imagefile3" id="imagefile3" placeholder="Image" value="UPLOAD">
+							</div>
+						</div>
+
+						<div class="form-group row ">
+							<label for="file_lainnya" class="col-sm-3 col-form-label">File Lainnya</label>
+							<div class="col-sm-9 kosong">
+								<img id="v_image" width="100px" height="100px">
+								<input type="file" class="form-control btn-file" onchange="loadFile(event)" name="imagefile4" id="imagefile4" placeholder="Image" value="UPLOAD">
+							</div>
+						</div>
+
 						<div class="form-group row ">
 							<label for="keterangan" class="col-sm-3 col-form-label">Keterangan</label>
 							<div class="col-sm-9 kosong">
@@ -323,11 +455,12 @@
 								<span class="help-block"></span>
 							</div>
 						</div>
+
 						<div class="form-group row ">
-							<label for="sts" class="col-sm-3 col-form-label">Status</label>
+							<label for="status" class="col-sm-3 col-form-label">Status</label>
 							<div class="col-sm-9 kosong">
-								<select class="form-control" name="sts" id="sts">
-									<option value="" selected disabled>--Pilih--</option>
+								<select class="form-control" name="status" id="status">
+									<option value="" selected disabled>--Pilih Status--</option>
 									<option value="1">Aktif</option>
 									<option value="0">Tidak Aktif</option>
 								</select>

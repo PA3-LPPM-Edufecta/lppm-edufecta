@@ -1,10 +1,11 @@
+<?php $this->load->view('admin/layouts/tables');?>
 <!-- Main content -->
 <section class="content">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12">
 				<div class="card">
-					<div class="card-header bg-light">
+					<div class="card-header bg-light elevation-1"">
 						<h3 class="card-title mt-1"><i class="<?php echo $this->db->get('tbl_submenu')->row(5)->icon; ?> text-blue"></i> Data Jenis Pencairan</h3>
 						<!-- Card-Tools -->
 						<div class="card-tools">
@@ -25,8 +26,8 @@
 					</div>
 					<!-- /.card-header -->
 					<div class="card-body">
-						<div class="text-left mb-4">
-							<button type="button" class="btn btn-sm btn-outline-primary" onclick="add_jenis_pencairan()" title="Add Data"><i class="fas fa-plus"></i> Add</button>
+						<div class="text-left mb-5">
+							<button type="button" class="btn btn-primary" onclick="add_jenis_pencairan()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>
 						</div>
 						<table id="tbl_jenis_pencairan" class="table table-bordered table-striped table-hover">
 							<thead>
@@ -62,6 +63,49 @@
 
 		//datatables
 		table = $("#tbl_jenis_pencairan").DataTable({
+            "dom": "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
+				"<'row'<'col-sm-12'tr>>" +
+				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+			"buttons": [
+				{
+					"extend": "pageLength",
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-dark mr-2',
+				},
+				{
+					"extend": 'excel',
+					"text": '<i class="far fa-file-excel"></i> Excel',
+					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'pdf',
+					"text": '<i class="far fa-file-pdf"></i> PDF',
+					"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'print',
+					"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
+					"autoPrint": false,
+					"exportOptions": {
+						"columns": ':visible'
+					}
+				},
+				{
+					"extend": 'colvis',
+					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-primary mr-2',
+				}
+			],
+			"lengthMenu": [
+				[5, 10, 25, 50, 100, -1],
+				[5, 10, 25, 50, 100, "All"]
+			],
+			"iDisplayLength": 10,
 			"responsive": true,
 			"autoWidth": false,
 			"language": {
@@ -223,7 +267,7 @@
 				$('[name="id"]').val(data.id);
 				$('[name="nama"]').val(data.nama);
 				$('[name="keterangan"]').val(data.keterangan);
-				$('[name="sts"]').val(data.sts);
+				$('[name="status"]').val(data.status);
 				$('#modal_form').modal('show'); // show bootstrap modal when complete loaded
 				$('.modal-title').text('Edit Jenis Pencairan'); // Set title to Bootstrap modal title
 
@@ -312,9 +356,9 @@
 							</div>
 						</div>
 						<div class="form-group row ">
-							<label for="sts" class="col-sm-3 col-form-label">Status</label>
+							<label for="status" class="col-sm-3 col-form-label">Status</label>
 							<div class="col-sm-9 kosong">
-								<select class="form-control" name="sts" id="sts">
+								<select class="form-control" name="status" id="status">
 									<option value="" selected disabled>--Pilih--</option>
 									<option value="1">Aktif</option>
 									<option value="0">Tidak Aktif</option>
