@@ -4,9 +4,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Data_dosen_model extends CI_Model
 {
 	var $table = 'mst_dosen';
-	var $column_order = array('nip', 'nidn', 'nama', 'gelar_depan', 'gelar_belakang', 'noktp', 'notelp', 'email', 'temp_lahir', 'tgl_lahir', 'alamat');
-	var $column_search = array('nip', 'nidn', 'nama', 'gelar_depan', 'gelar_belakang', 'noktp', 'notelp', 'email', 'temp_lahir', 'tgl_lahir', 'alamat');
+	var $column_order = array('nip', 'nidn', 'nama', 'gelar_depan', 'gelar_belakang', 'noktp', 'notelp', 'email', 'temp_lahir', 'tgl_lahir', 'alamat', 'status');
+	var $column_search = array('nip', 'nidn', 'nama', 'gelar_depan', 'gelar_belakang', 'noktp', 'notelp', 'email', 'temp_lahir', 'tgl_lahir', 'alamat', 'status');
 	var $order = array('id' => 'asc');
+	
 	function __construct()
 	{
 		parent::__construct();
@@ -68,25 +69,36 @@ class Data_dosen_model extends CI_Model
 		return $this->db->count_all_results();
 	}
 
-	function insert_dosen($table, $data)
+	function getAll()
+    {
+        return $this->db->get("mst_dosen");
+    }
+
+	function view_dosen($id)
+	{
+		$this->db->where('id', $id);
+		return $this->db->get("mst_dosen");
+	}
+
+	function insert_data_dosen($table, $data)
 	{
 		$insert = $this->db->insert($table, $data);
 		return $insert;
 	}
 
-	function update_dosen($id, $data)
+	function update_data_dosen($id, $data)
 	{
 		$this->db->where('id', $id);
 		$this->db->update('mst_dosen', $data);
 	}
 
-	function get_dosen($id)
+	function get_data_dosen($id)
 	{
 		$this->db->where('id', $id);
 		return $this->db->get('mst_dosen')->row();
 	}
 
-	function delete_dosen($id, $table)
+	function delete_data_dosen($id, $table)
 	{
 		$this->db->where('id', $id);
 		$this->db->delete($table);
