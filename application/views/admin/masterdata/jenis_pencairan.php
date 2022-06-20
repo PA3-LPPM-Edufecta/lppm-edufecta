@@ -151,7 +151,26 @@
 					sortable: true,
 					searchable: true,
 					"render": function(data, type, row) {
-						return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_jenis_pencairan(" + row[3] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delpencairan(" + row[3] + ")\">Hapus</a></li></center></ul>";
+						// return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_jenis_pencairan(" + row[3] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delpencairan(" + row[3] + ")\">Hapus</a></li></center></ul>";
+						if (row[2] == 0) {
+							return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_jenis_pencairan(` + row[3] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delpencairan(` + row[3] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[3] + `,` + row[2] + `)">Set Status Aktif</a></li>
+								</ul>
+							`;
+						} else {
+							return `
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_jenis_pencairan(` + row[3] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delpencairan(` + row[3] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[3] + `,` + row[2] + `)">Set Status Tidak Aktif</a></li>
+								</ul>
+							`;
+						}
 					},
 
 					"orderable": false, //set not orderable
@@ -267,7 +286,7 @@
 				$('[name="id"]').val(data.id);
 				$('[name="nama"]').val(data.nama);
 				$('[name="keterangan"]').val(data.keterangan);
-				$('[name="status"]').val(data.status);
+				// $('[name="status"]').val(data.status);
 				$('#modal_form').modal('show'); // show bootstrap modal when complete loaded
 				$('.modal-title').text('Edit Jenis Pencairan'); // Set title to Bootstrap modal title
 
@@ -278,7 +297,24 @@
 		});
 	}
 
-
+	function update_status(id, status) {
+		$.ajax({
+			url: "<?php echo site_url('jenis_pencairan/update_status'); ?>",
+			type: "POST",
+			data: {
+				id: id,
+				status: status
+			},
+			dataType: "JSON",
+			success: function(data) {
+				reload_table();
+				Toast.fire({
+					icon: 'success',
+					title: 'Success!!.'
+				});
+			}
+		});
+	}
 
 	function save() {
 		$('#btnSave').text('saving...'); //change button text
@@ -355,7 +391,7 @@
 								<span class="help-block"></span>
 							</div>
 						</div>
-						<div class="form-group row ">
+						<!-- <div class="form-group row ">
 							<label for="status" class="col-sm-3 col-form-label">Status</label>
 							<div class="col-sm-9 kosong">
 								<select class="form-control" name="status" id="status">
@@ -365,7 +401,7 @@
 								</select>
 								<span class="help-block"></span>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</form>
 			</div>
