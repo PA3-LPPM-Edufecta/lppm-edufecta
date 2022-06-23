@@ -110,7 +110,6 @@
                     <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
                         <li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="View" onclick="vlevel(` + row[1] + `)">View</a></li>
                         <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_level(` + row[1] + `)">Edit</a></li>
-                        <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[1] + `,` + row[1] + `)">Set Status Aktif</a></li>
                     </ul>
                   `;
               } else {
@@ -119,8 +118,7 @@
                   <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
                     <li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="View" onclick="vlevel(` + row[1] + `)">View</a></li>
                     <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_level(` + row[1] + `)">Edit</a></li>
-                        <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="dellevel(` + row[1] + `)">Hapus</a></li>
-                    <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[1] + `,` + row[1] + `)">Set Status Tidak Aktif</a></li>
+                    <li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="dellevel(` + row[1] + `)">Hapus</a></li>
                   </ul>
                   `;
                 }
