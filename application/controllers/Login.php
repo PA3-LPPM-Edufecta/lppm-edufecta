@@ -7,7 +7,7 @@ class Login extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('login_model'));
+        $this->load->model(array('login_model', 'user_model'));
     }
 
     public function index()
@@ -27,9 +27,12 @@ class Login extends CI_Controller
         $this->_validate();
         //cek username database
         $username = anti_injection($this->input->post('username'));
+        $is_active = $this->db->where("is_active", 'Y');
+        // if($status && $cek->num_rows() == 1 ) {
 
         if ($this->login_model->check_db($username)->num_rows() == 1) {
             $db = $this->login_model->check_db($username)->row();
+            // $aktif = $this->login_model->check_active($is_active)->row();
             $apl = $this->login_model->Aplikasi()->row();
 
             if (hash_verified(anti_injection($this->input->post('password')), $db->password)) {
@@ -43,9 +46,9 @@ class Login extends CI_Controller
                     'aplikasi'    => $apl->nama_aplikasi,
                     'title'       => $apl->title,
                     'logo'        => $apl->logo,
-                    'nama_owner'     => $apl->nama_owner,
+                    'nama_owner'  => $apl->nama_owner,
                     'image'       => $db->image,
-                    'logged_in'    => TRUE
+                    'logged_in'   => TRUE
                 );
 
                 $this->session->set_userdata($userdata);
@@ -58,7 +61,7 @@ class Login extends CI_Controller
                 echo json_encode($data);
             }
         } else {
-            $data['pesan'] = "Username atau Password tidak terdaftar!";
+            $data['pesan'] = "Akun tidak terdaftar atau tidak aktif!";
             $data['error'] = TRUE;
             echo json_encode($data);
         }
