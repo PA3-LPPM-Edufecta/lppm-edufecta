@@ -7,14 +7,27 @@ class Publikasi_jurnal_pengabdian extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('Publikasi_jurnal_pengabdian_model', 'Data_dosen_model', 'Tipe_pengajuan_model'));
+        $this->load->model(array('Publikasi_jurnal_pengabdian_model', 'Data_dosen_model', 'Tipe_pengajuan_model', 'akses_model'));
     }
 
     public function index()
     {
         $this->load->helper('url');
         $data['mst_dosen'] = $this->Data_dosen_model->getAll()->result();
-        $this->template->load('admin/layouts/layoutbackend', 'admin/kinerja_pengabdian/Publikasi_jurnal_pengabdian', $data);
+        $id_user = $this->session->userdata['id_user'];
+        $id_level = $this->akses_model->get_id_level($id_user)->row()->id_level;
+        $id_submenu = 28;
+        $view_level = $this->akses_model->get_level($id_level, $id_submenu)->row()->view_level;
+        $data['add_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->add_level;
+        $data['edit_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->edit_level;
+        $data['delete_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->delete_level;
+        $data['print_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->print_level;
+
+        if ($view_level == 'Y') {
+            return $this->template->load('admin/layouts/layoutbackend', 'admin/kinerja_pengabdian/publikasi_jurnal_pengabdian', $data);
+        } else {
+            return $this->template->load('admin/layouts/layouterror', 'errors/custom403');
+        }
     }
 
     public function ajax_list()
@@ -65,7 +78,7 @@ class Publikasi_jurnal_pengabdian extends MY_Controller
 
             $nama = slug($this->input->post('file'));
             $config['upload_path']   = './assets/uploads/foto/cover/';
-            $config['allowed_types'] = 'gif|jpg|jpeg|png'; //mencegah upload backdor
+            $config['allowed_types'] = 'gif|jpg|jpeg|png|doc|docx|xls|xlsx|ppt|pptx|csv|ods|odt|odp|pdf'; //mencegah upload backdor
             $config['max_size']      = '3000';
             $config['max_width']     = '3000';
             $config['max_height']    = '3000';
@@ -148,7 +161,7 @@ class Publikasi_jurnal_pengabdian extends MY_Controller
 
             $nama = slug($this->input->post('file'));
             $config['upload_path']   = './assets/uploads/foto/cover/';
-            $config['allowed_types'] = 'gif|jpg|jpeg|png'; //mencegah upload backdor
+            $config['allowed_types'] = 'gif|jpg|jpeg|png|doc|docx|xls|xlsx|ppt|pptx|csv|ods|odt|odp|pdf'; //mencegah upload backdor
             $config['max_size']      = '3000';
             $config['max_width']     = '3000';
             $config['max_height']    = '3000';

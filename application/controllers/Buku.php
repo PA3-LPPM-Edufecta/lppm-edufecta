@@ -9,7 +9,7 @@ class Buku extends MY_Controller
         parent::__construct();
         $this->load->helper('url', 'form');
         $this->load->library('form_validation');
-        $this->load->model(array('Buku_model', 'Data_dosen_model', 'Tipe_pengajuan_model'));
+        $this->load->model(array('Buku_model', 'Data_dosen_model', 'Tipe_pengajuan_model', 'akses_model'));
     }
 
     public function index()
@@ -17,13 +17,26 @@ class Buku extends MY_Controller
         $this->load->helper('url');
         $data['mst_dosen'] = $this->Data_dosen_model->getAll()->result();
         $data['id_buku'] =  $this->Buku_model->getLastId()->result();
-        $this->template->load('admin/layouts/layoutbackend', 'admin/kinerja_pengabdian/buku', $data);
+        $id_user = $this->session->userdata['id_user'];
+        $id_level = $this->akses_model->get_id_level($id_user)->row()->id_level;
+        $id_submenu = 19;
+        $view_level = $this->akses_model->get_level($id_level, $id_submenu)->row()->view_level;
+        $data['add_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->add_level;
+        $data['edit_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->edit_level;
+        $data['delete_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->delete_level;
+        $data['print_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->print_level;
+
+        if ($view_level == 'Y') {
+            return $this->template->load('admin/layouts/layoutbackend', 'admin/kinerja_pengabdian/buku', $data);
+        } else {
+            return $this->template->load('admin/layouts/layouterror', 'errors/custom403');
+        }
     }
 
     public function ajax_list()
     {
         ini_set('memory_limit', '512M');
-        set_time_limit(3600);
+        //set_time_limit(3600);
         $list = $this->Buku_model->get_datatables();
         $data = array();
         $no = $_POST['start'];

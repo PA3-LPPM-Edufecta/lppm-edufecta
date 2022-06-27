@@ -7,7 +7,7 @@ class Submenu extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('submenu_model', 'menu_model'));
+        $this->load->model(array('submenu_model', 'menu_model', 'akses_model'));
         $this->load->model(array('userlevel_model'));
     }
 
@@ -15,7 +15,16 @@ class Submenu extends MY_Controller
     {
         $this->load->helper('url');
         $data['menu'] = $this->menu_model->getAll()->result();
-        $this->template->load('admin/layouts/layoutbackend', 'admin/settings/submenu_data', $data);
+        $id_user = $this->session->userdata['id_user'];
+        $id_level = $this->akses_model->get_id_level($id_user)->row()->id_level;
+        $id_submenu = 2;
+        $view_level = $this->akses_model->get_level($id_level, $id_submenu)->row()->view_level;
+
+        if ($view_level == 'Y') {
+            return $this->template->load('admin/layouts/layoutbackend', 'admin/settings/submenu_data', $data);
+        } else {
+            return $this->template->load('admin/layouts/layouterror', 'errors/custom403');
+        }
     }
 
     public function ajax_list()

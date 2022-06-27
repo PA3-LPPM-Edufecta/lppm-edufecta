@@ -7,22 +7,30 @@ class Userlevel extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('userlevel_model');
+        $this->load->model(array('userlevel_model', 'akses_model'));
         $this->load->helper('url');
         // $this->load->database();
     }
 
     public function index()
     {
-        // 
         $data['user_level'] = $this->userlevel_model->getAll();
-        $this->template->load('admin/layouts/layoutbackend', 'admin/settings/user_level', $data);
+        $id_user = $this->session->userdata['id_user'];
+        $id_level = $this->akses_model->get_id_level($id_user)->row()->id_level;
+        $id_submenu = 5;
+        $view_level = $this->akses_model->get_level($id_level, $id_submenu)->row()->view_level;
+
+        if ($view_level == 'Y') {
+            return $this->template->load('admin/layouts/layoutbackend', 'admin/settings/user_level', $data);
+        } else {
+            return $this->template->load('admin/layouts/layouterror', 'errors/custom403');
+        }
     }
 
     public function ajax_list()
     {
         ini_set('memory_limit', '512M');
-        set_time_limit(3600);
+        //set_time_limit(3600);
         $list = $this->userlevel_model->get_datatables();
         $data = array();
         $no = $_POST['start'];

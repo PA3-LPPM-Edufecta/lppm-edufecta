@@ -7,21 +7,30 @@ class User extends MY_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('user_model');
+        $this->load->model(array('user_model', 'akses_model'));
     }
 
     public function index()
     {
-        $this->load->helper('url');
+        // $this->load->helper('url');
         $data['user'] = $this->user_model->getAll();
         $data['user_level'] = $this->user_model->userlevel();
-        $this->template->load('admin/layouts/layoutbackend', 'admin/settings/user_data', $data);
+        $id_user = $this->session->userdata['id_user'];
+        $id_level = $this->akses_model->get_id_level($id_user)->row()->id_level;
+        $id_submenu = 4;
+        $view_level = $this->akses_model->get_level($id_level, $id_submenu)->row()->view_level;
+
+        if ($view_level == 'Y') {
+            return $this->template->load('admin/layouts/layoutbackend', 'admin/settings/user_data', $data);
+        } else {
+            return $this->template->load('admin/layouts/layouterror', 'errors/custom403');
+        }
     }
 
     public function ajax_list()
     {
         ini_set('memory_limit', '512M');
-        set_time_limit(3600);
+        //set_time_limit(3600);
         $list = $this->user_model->get_datatables();
         $data = array();
         $no = $_POST['start'];

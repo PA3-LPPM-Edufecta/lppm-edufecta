@@ -7,19 +7,31 @@ class Bidang_ilmu extends MY_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model(array('bidang_ilmu_model'));
+        $this->load->model(array('bidang_ilmu_model', 'akses_model'));
     }
 
     public function index()
     {
-        $this->load->helper('url');
-        $this->template->load('admin/layouts/layoutbackend', 'admin/masterdata/bidang_ilmu');
+        $id_user = $this->session->userdata['id_user'];
+        $id_level = $this->akses_model->get_id_level($id_user)->row()->id_level;
+        $id_submenu = 20;
+        $view_level = $this->akses_model->get_level($id_level, $id_submenu)->row()->view_level;
+        $data['add_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->add_level;
+        $data['edit_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->edit_level;
+        $data['delete_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->delete_level;
+        $data['print_level'] = $this->akses_model->get_level($id_level, $id_submenu)->row()->print_level;
+        
+        if ($view_level == 'Y') {
+            return $this->template->load('admin/layouts/layoutbackend', 'admin/masterdata/bidang_ilmu', $data);
+        } else {
+            return $this->template->load('admin/layouts/layouterror', 'errors/custom403');
+        }
     }
 
     public function ajax_list()
     {
         ini_set('memory_limit', '512M');
-        set_time_limit(3600);
+        //set_time_limit(3600);
         $list = $this->bidang_ilmu_model->get_datatables();
         $data = array();
         $no = $_POST['start'];
