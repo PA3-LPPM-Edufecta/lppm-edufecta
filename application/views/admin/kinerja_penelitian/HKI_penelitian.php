@@ -1,4 +1,4 @@
-<?php $this->load->view('admin/layouts/tables');?>
+<?php $this->load->view('admin/layouts/tables'); ?>
 <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/datetime-moment.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.12.1/dataRender/datetime.js"></script>
 <script src="<?php echo base_url(); ?>assets/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
@@ -10,7 +10,7 @@
 				alwaysShowClose: true
 			});
 		});
-		
+
 		$('.btn[data-filter]').on('click', function() {
 			$('.btn[data-filter]').removeClass('active');
 			$(this).addClass('active');
@@ -25,7 +25,7 @@
 			<div class="col-12">
 				<div class="card">
 					<div class="card-header bg-light elevation-1"">
-						<h3 class="card-title mt-1"><i class="fa fa-list text-blue"></i> Data HKI</h3>
+						<h3 class=" card-title mt-1"><i class="fa fa-list text-blue"></i> Data HKI</h3>
 						<!-- Card-Tools -->
 						<div class="card-tools">
 							<button type="button" class="btn btn-tool text-blue" data-card-widget="card-refresh" data-source="/lppm/hki" data-source-selector="#card-refresh-content" data-load-on-init="false">
@@ -46,8 +46,11 @@
 					<!-- /.card-header -->
 					<div class="card-body">
 						<div class="text-left mb-5">
-							<button type="button" class="btn btn-primary" onclick="add_hki()" title="Add Data HKI"><i class="fas fa-plus"></i> Tambah Data</button>
-
+							<?php
+							if ($add_level == 'Y') {
+								echo '<button type="button" class="btn btn-primary" onclick="add_hki()" title="Add Data HKI"><i class="fas fa-plus"></i> Tambah Data</button>';
+							}
+							?>
 						</div>
 						<table id="tbl_hki" class="table table-bordered table-striped table-hover">
 							<thead>
@@ -133,36 +136,37 @@
 			"dom": "<'row'<'col-sm-12 col-md-8'B><'col-sm-12 col-md-4'f>>" +
 				"<'row'<'col-sm-12'tr>>" +
 				"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-			"buttons": [
-				{
+			"buttons": [{
 					"extend": "pageLength",
 					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-dark mr-2',
 				},
-				{
-					"extend": 'excel',
-					"text": '<i class="far fa-file-excel"></i> Excel',
-					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
-					"exportOptions": {
-						"columns": ':visible'
-					}
-				},
-				{
-					"extend": 'pdf',
-					"text": '<i class="far fa-file-pdf"></i> PDF',
-					"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
-					"exportOptions": {
-						"columns": ':visible'
-					}
-				},
-				{
-					"extend": 'print',
-					"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
-					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
-					"autoPrint": false,
-					"exportOptions": {
-						"columns": ':visible'
-					}
-				},
+				<?php if ($print_level == 'Y') : ?>,
+					{
+						"extend": 'excel',
+						"text": '<i class="far fa-file-excel"></i> Excel',
+						"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
+						"exportOptions": {
+							"columns": ':visible'
+						}
+					},
+					{
+						"extend": 'pdf',
+						"text": '<i class="far fa-file-pdf"></i> PDF',
+						"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
+						"exportOptions": {
+							"columns": ':visible'
+						}
+					},
+					{
+						"extend": 'print',
+						"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
+						"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
+						"autoPrint": false,
+						"exportOptions": {
+							"columns": ':visible'
+						}
+					},
+				<?php endif; ?>,
 				{
 					"extend": 'colvis',
 					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-primary mr-2',
@@ -184,7 +188,7 @@
 
 			// Load data for the table's content from an Ajax source
 			"ajax": {
-				"url": "<?php echo site_url('hki_penelitian/ajax_list') ?>",
+				"url": "<?php echo site_url('HKI_penelitian/ajax_list') ?>",
 				"type": "POST"
 			},
 
@@ -198,6 +202,7 @@
 
 						if (row[13] == 0) {
 							return `
+							<?php if ($edit_level == 'Y' && $delete_level == 'Y') : ?>
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
@@ -205,15 +210,41 @@
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delhki(` + row[14] + `)">Hapus</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Aktif</a></li>
 								</ul>
+								<?php elseif ($edit_level == 'Y' && $delete_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_hki(` + row[14] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Aktif</a></li>
+								</ul>
+								<?php elseif ($edit_level == 'N' && $delete_level == 'Y') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delhki(` + row[14] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Aktif</a></li>
+								</ul>
+								<?php elseif ($edit_level == 'N' && $delete_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Aktif</a></li>
+								</ul>
+							<?php endif; ?>
 							`;
 						} else {
 							return `
+							<?php if ($edit_level == 'Y') : ?>
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_hki(` + row[14] + `)">Edit</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Tidak Aktif</a></li>
 								</ul>
+								<?php elseif ($edit_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Tidak Aktif</a></li>
+								</ul>
+							<?php endif; ?>
 							`;
 						}
 
@@ -276,11 +307,17 @@
 						// 	return "<img class=\"myImgx\"  src='<?php echo base_url("assets/uploads/foto/default-150x150.png"); ?>' width=\"100px\" height=\"100px\">";
 						// } <a href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[12] + `" aria-haspopup="true" aria-expanded="false" class="text-center">Download</a>
 						// <a class="btn btn-xs btn-outline-primary" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[12] + `" data-toggle="lightbox" data-title="View"><i class="fa fa-eye" style="color: #2c2ce6;" aria-hidden="true"></i></a>
-							
+						/*
+						<div class="text-center">
+									<a class="btn btn-xs btn-outline-primary btn-block" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[12] + `" data-toggle="lightbox" data-title="View File"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+									<a class="btn btn-xs btn-outline-dark btn-block" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[12] + `" download><i class="fa fa-download" aria-hidden="true"></i> Download</a>
+								</div>
+						*/
+
 						if (row[12] != null) {
 							return `
 								<div class="text-center">
-									<a class="btn btn-xs btn-outline-primary btn-block" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[12] + `" data-toggle="lightbox" data-title="View File"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+									<button type="button" class="btn btn-xs btn-outline-primary btn-block" onclick="vfile('` + row[12] + `')"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
 									<a class="btn btn-xs btn-outline-dark btn-block" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[12] + `" download><i class="fa fa-download" aria-hidden="true"></i> Download</a>
 								</div>
 							`;
@@ -343,21 +380,26 @@
 
 	//view
 	function vhki(id) {
-        $('#form')[0].reset(); // reset form on modals
-        $('.form-group').removeClass('has-error'); // clear error class
-        $('.help-block').empty(); // clear error string
-        $('.modal-title').text('View HKI');
-        $("#modal-default").modal('show');
-        $.ajax({
-          url: '<?php echo base_url('hki_penelitian/viewhki'); ?>',
-          type: 'post',
-          data: 'table=tbl_hki&id=' + id,
-          success: function(respon) {
-            $("#md_def").html(respon);
-          }
-        })
-    }
-	
+		$('#form')[0].reset(); // reset form on modals
+		$('.form-group').removeClass('has-error'); // clear error class
+		$('.help-block').empty(); // clear error string
+		$('.modal-title').text('View HKI');
+		$("#modal-default").modal('show');
+		$.ajax({
+			url: '<?php echo base_url('HKI_penelitian/viewhki'); ?>',
+			type: 'post',
+			data: 'table=tbl_hki&id=' + id,
+			success: function(respon) {
+				$("#md_def").html(respon);
+			}
+		})
+	}
+
+	function vfile(file) {
+
+		window.open('<?php echo base_url(); ?>/assets/uploads/foto/cover/' + file);
+	}
+
 	//delete
 	function delhki(id) {
 		Swal.fire({
@@ -371,7 +413,7 @@
 		}).then((result) => {
 			if (result.value) {
 				$.ajax({
-					url: "<?php echo site_url('hki_penelitian/delete'); ?>",
+					url: "<?php echo site_url('HKI_penelitian/delete'); ?>",
 					type: "POST",
 					data: "id=" + id,
 					cache: false,
@@ -415,7 +457,7 @@
 	//ubah status aktif/tidak aktif
 	function update_status(id, status) {
 		$.ajax({
-			url: "<?php echo site_url('hki_penelitian/update_status'); ?>",
+			url: "<?php echo site_url('HKI_penelitian/update_status'); ?>",
 			type: "POST",
 			data: {
 				id: id,
@@ -441,7 +483,7 @@
 
 		//Ajax Load data from ajax
 		$.ajax({
-			url: "<?php echo site_url('hki_penelitian/edit_hki') ?>/" + id,
+			url: "<?php echo site_url('HKI_penelitian/edit_hki') ?>/" + id,
 			type: "GET",
 			dataType: "JSON",
 			success: function(data) {
@@ -484,9 +526,9 @@
 		var url;
 
 		if (save_method == 'add') {
-			url = "<?php echo site_url('hki_penelitian/insert') ?>";
+			url = "<?php echo site_url('HKI_penelitian/insert') ?>";
 		} else {
-			url = "<?php echo site_url('hki_penelitian/update') ?>";
+			url = "<?php echo site_url('HKI_penelitian/update') ?>";
 		}
 
 		// ajax adding data to database

@@ -46,8 +46,11 @@
 					<!-- /.card-header -->
 					<div class="card-body">
 						<div class="text-left mb-5">
-							<button type="button" class="btn btn-primary" onclick="add_publikasi_jurnal()" title="Add Publikasi Jurnal"><i class="fas fa-plus"></i> Tambah Data</button>
-
+							<?php
+							if ($add_level == 'Y') {
+								echo '<button type="button" class="btn btn-primary" onclick="add_publikasi_jurnal()" title="Add Publikasi Jurnal"><i class="fas fa-plus"></i> Tambah Data</button>';
+							}
+							?>
 						</div>
 						<table id="tbl_pubjurnal" class="table table-bordered table-striped table-hover">
 							<thead>
@@ -140,31 +143,33 @@
 					"extend": "pageLength",
 					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-dark mr-2',
 				},
-				{
-					"extend": 'excel',
-					"text": '<i class="far fa-file-excel"></i> Excel',
-					"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
-					"exportOptions": {
-						"columns": ':visible'
-					}
-				},
-				{
-					"extend": 'pdf',
-					"text": '<i class="far fa-file-pdf"></i> PDF',
-					"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
-					"exportOptions": {
-						"columns": ':visible'
-					}
-				},
-				{
-					"extend": 'print',
-					"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
-					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
-					"autoPrint": false,
-					"exportOptions": {
-						"columns": ':visible'
-					}
-				},
+				<?php if ($print_level == 'Y') : ?>,
+					{
+						"extend": 'excel',
+						"text": '<i class="far fa-file-excel"></i> Excel',
+						"className": 'btn rounded btn-light buttons-excel buttons-html5 btn-outline-success mr-2',
+						"exportOptions": {
+							"columns": ':visible'
+						}
+					},
+					{
+						"extend": 'pdf',
+						"text": '<i class="far fa-file-pdf"></i> PDF',
+						"className": 'btn rounded btn-light buttons-pdf buttons-html5 btn-outline-danger mr-2',
+						"exportOptions": {
+							"columns": ':visible'
+						}
+					},
+					{
+						"extend": 'print',
+						"text": '<i class="fa fa-table"></i><span> Preview Tables</span>',
+						"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-info mr-2',
+						"autoPrint": false,
+						"exportOptions": {
+							"columns": ':visible'
+						}
+					},
+				<?php endif; ?>,
 				{
 					"extend": 'colvis',
 					"className": 'btn rounded btn-light buttons-tables buttons-html5 btn-outline-primary mr-2',
@@ -200,22 +205,49 @@
 
 						if (row[17] == 0) {
 							return `
+							<?php if ($edit_level == 'Y' && $delete_level == 'Y') : ?>
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vpubjurnal(` + row[18] + `)">View</a></li>
+								<!--<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vpubjurnal(` + row[18] + `)">View</a></li>-->
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_publikasi_jurnal(` + row[18] + `)">Edit</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="deljurnal(` + row[18] + `)">Hapus</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[18] + `,` + row[17] + `)">Set Status Aktif</a></li>
 								</ul>
+								<?php elseif ($edit_level == 'Y' && $delete_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<!--<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vpubjurnal(` + row[18] + `)">View</a></li>-->
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_publikasi_jurnal(` + row[18] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[18] + `,` + row[17] + `)">Set Status Aktif</a></li>
+								</ul>
+								<?php elseif ($edit_level == 'N' && $delete_level == 'Y') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="deljurnal(` + row[18] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[18] + `,` + row[17] + `)">Set Status Aktif</a></li>
+								</ul>
+								<?php elseif ($edit_level == 'N' && $delete_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[18] + `,` + row[17] + `)">Set Status Aktif</a></li>
+								</ul>
+							<?php endif; ?>
 							`;
 						} else {
 							return `
+							<?php if ($edit_level == 'Y') : ?>
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vpubjurnal(` + row[18] + `)">View</a></li>
+								<!--<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vpubjurnal(` + row[18] + `)">View</a></li>-->
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_publikasi_jurnal(` + row[18] + `)">Edit</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[18] + `,` + row[17] + `)">Set Status Tidak Aktif</a></li>
 								</ul>
+								<?php elseif ($edit_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[18] + `,` + row[17] + `)">Set Status Tidak Aktif</a></li>
+								</ul>
+							<?php endif; ?>
 							`;
 						}
 
@@ -271,13 +303,13 @@
 				{
 					targets: [7],
 					render: function(data, type, row, meta, date) {
-						return row[12];
+						return row[17];
 					}
 				},
 				{
 					targets: [8],
 					render: function(data, type, row, meta, date) {
-						return row[13];
+						return row[18];
 					}
 				},
 				{
@@ -299,7 +331,7 @@
 						if (row[16] != null) {
 							return `
 								<div class="text-center">
-									<a class="btn btn-xs btn-outline-primary btn-block" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[16] + `" data-toggle="lightbox" data-title="View File"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+									<button type="button" class="btn btn-xs btn-outline-primary btn-block" onclick="vfile('` + row[16] + `')"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
 									<a class="btn btn-xs btn-outline-dark btn-block" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[16] + `" download><i class="fa fa-download" aria-hidden="true"></i> Download</a>
 								</div>
 							`;
@@ -369,6 +401,10 @@
 				$("#md_def").html(respon);
 			}
 		})
+	}
+
+	function vfile(file) {
+		window.open('<?php echo base_url(); ?>/assets/uploads/foto/cover/' + file);
 	}
 
 	//delete
