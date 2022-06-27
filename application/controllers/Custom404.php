@@ -14,7 +14,7 @@ class Custom404 extends MY_Controller {
     public function index()
     {
         $this->load->helper('url');
-        $this->template->load('admin/layouts/layout404','errors/custom404');
+        $this->template->load('admin/layouts/layouterror','errors/custom404');
     } //end function index
 
 }
