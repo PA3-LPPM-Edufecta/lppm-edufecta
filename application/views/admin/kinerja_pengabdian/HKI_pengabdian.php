@@ -46,8 +46,11 @@
 					<!-- /.card-header -->
 					<div class="card-body">
 						<div class="text-left mb-5">
-							<button type="button" class="btn btn-primary" onclick="add_hki()" title="Add Data HKI"><i class="fas fa-plus"></i> Tambah Data</button>
-
+						<?php
+							if ($add_level == 'Y') {
+								echo '<button type="button" class="btn btn-primary" onclick="add_hki()" title="Add Data HKI"><i class="fas fa-plus"></i> Tambah Data</button>';
+							}
+							?>
 						</div>
 						<table id="tbl_hki" class="table table-bordered table-striped table-hover">
 							<thead>
@@ -184,7 +187,7 @@
 
 			// Load data for the table's content from an Ajax source
 			"ajax": {
-				"url": "<?php echo site_url('hki_pengabdian/ajax_list') ?>",
+				"url": "<?php echo site_url('HKI_pengabdian/ajax_list') ?>",
 				"type": "POST"
 			},
 
@@ -198,6 +201,7 @@
 
 						if (row[13] == 0) {
 							return `
+							<?php if ($edit_level == 'Y' && $delete_level == 'Y') : ?>
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
@@ -205,18 +209,46 @@
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delhki(` + row[14] + `)">Hapus</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Aktif</a></li>
 								</ul>
+								<?php elseif ($edit_level == 'Y' && $delete_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_hki(` + row[14] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Aktif</a></li>
+								</ul>
+								<?php elseif ($edit_level == 'N' && $delete_level == 'Y') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delhki(` + row[14] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Aktif</a></li>
+								</ul>
+								<?php elseif ($edit_level == 'N' && $delete_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Aktif</a></li>
+								</ul>
+							<?php endif; ?>
 							`;
 						} else {
 							return `
+							<?php if ($edit_level == 'Y') : ?>
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_hki(` + row[14] + `)">Edit</a></li>
 								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Tidak Aktif</a></li>
 								</ul>
+								<?php elseif ($edit_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="View" data-role="view" onclick="vhki(` + row[14] + `)">View</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[14] + `,` + row[13] + `)">Set Status Tidak Aktif</a></li>
+								</ul>
+							<?php endif; ?>
 							`;
 						}
-
 					},
 					"orderable": false, //set not orderable
 				},
@@ -280,7 +312,7 @@
 						if (row[12] != null) {
 							return `
 								<div class="text-center">
-									<a class="btn btn-xs btn-outline-primary btn-block" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[12] + `" data-toggle="lightbox" data-title="View File"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
+									<button type="button" class="btn btn-xs btn-outline-primary btn-block" onclick="vfile('` + row[12] + `')"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
 									<a class="btn btn-xs btn-outline-dark btn-block" href="<?php echo base_url("assets/uploads/foto/cover/"); ?>` + row[12] + `" download><i class="fa fa-download" aria-hidden="true"></i> Download</a>
 								</div>
 							`;
@@ -349,7 +381,7 @@
         $('.modal-title').text('View HKI');
         $("#modal-default").modal('show');
         $.ajax({
-          url: '<?php echo base_url('hki_pengabdian/viewhki'); ?>',
+          url: '<?php echo base_url('HKI_pengabdian/viewhki'); ?>',
           type: 'post',
           data: 'table=tbl_hki&id=' + id,
           success: function(respon) {
@@ -357,6 +389,10 @@
           }
         })
     }
+
+	function vfile(file){
+		window.open('<?php echo base_url();?>/assets/uploads/foto/cover/'+file);
+	}
 	
 	//delete
 	function delhki(id) {
@@ -371,7 +407,7 @@
 		}).then((result) => {
 			if (result.value) {
 				$.ajax({
-					url: "<?php echo site_url('hki_pengabdian/delete'); ?>",
+					url: "<?php echo site_url('HKI_pengabdian/delete'); ?>",
 					type: "POST",
 					data: "id=" + id,
 					cache: false,
@@ -415,7 +451,7 @@
 	//ubah status aktif/tidak aktif
 	function update_status(id, status) {
 		$.ajax({
-			url: "<?php echo site_url('hki_pengabdian/update_status'); ?>",
+			url: "<?php echo site_url('HKI_pengabdian/update_status'); ?>",
 			type: "POST",
 			data: {
 				id: id,
@@ -441,7 +477,7 @@
 
 		//Ajax Load data from ajax
 		$.ajax({
-			url: "<?php echo site_url('hki_pengabdian/edit_hki') ?>/" + id,
+			url: "<?php echo site_url('HKI_pengabdian/edit_hki') ?>/" + id,
 			type: "GET",
 			dataType: "JSON",
 			success: function(data) {
@@ -484,9 +520,9 @@
 		var url;
 
 		if (save_method == 'add') {
-			url = "<?php echo site_url('hki_pengabdian/insert') ?>";
+			url = "<?php echo site_url('HKI_pengabdian/insert') ?>";
 		} else {
-			url = "<?php echo site_url('hki_pengabdian/update') ?>";
+			url = "<?php echo site_url('HKI_pengabdian/update') ?>";
 		}
 
 		// ajax adding data to database

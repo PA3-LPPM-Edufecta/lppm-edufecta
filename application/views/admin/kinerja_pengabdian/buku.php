@@ -27,7 +27,11 @@
 					<!-- /.card-header -->
 					<div class="card-body">
 						<div class="text-left mb-5">
-							<button type="button" class="btn btn-primary" onclick="add_buku()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>
+						<?php
+							if ($add_level == 'Y') {
+								echo '<button type="button" class="btn btn-primary" onclick="add_buku()" title="Add Data"><i class="fas fa-plus"></i> Tambah Data</button>';
+							}
+							?>
 						</div>
 						<table id="tbl_buku" class="table table-bordered table-striped table-hover">
 							<thead>
@@ -130,21 +134,46 @@
 						// return "<a id=\"dropdownSubMenu1\" href=\"#\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\" class=\"nav-link dropdown-toggle btn btn-primary\"></a><ul aria-labelledby=\"dropdownSubMenu1\" class=\"dropdown-menu border-0 shadow\" style=\"left: 0px; right: inherit;\"><center><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Edit\" data-role=\"edit\" onclick=\"edit_buku(" + row[4] + ")\">Edit</a></li><li><a href=\"javascript:void(0)\" class=\"dropdown-item\" title=\"Delete\" nama=" + row[0] + "  onclick=\"delbuku(" + row[4] + ")\">Hapus</a></li></center></ul>";
 						if (row[16] == 0) {
 							return `
+							<?php if ($edit_level == 'Y' && $delete_level == 'Y') : ?>
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_buku(` + row[17] + `)">Edit</a></li>
-									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delbuku(` + row[17] + `)">Hapus</a></li>
-									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[17] + `,` + row[16] + `)">Set Status Aktif</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_buku(` + row[17] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delbuku(` + row[17] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[17] + `,` + row[16] + `)">Set Status Aktif</a></li>
 								</ul>
+								<?php elseif ($edit_level == 'Y' && $delete_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_buku(` + row[17] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[17] + `,` + row[16] + `)">Set Status Aktif</a></li>
+								</ul>
+								<?php elseif ($edit_level == 'N' && $delete_level == 'Y') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delbuku(` + row[17] + `)">Hapus</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[17] + `,` + row[16] + `)">Set Status Aktif</a></li>
+								</ul>
+								<?php elseif ($edit_level == 'N' && $delete_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[17] + `,` + row[16] + `)">Set Status Aktif</a></li>
+								</ul>
+							<?php endif; ?>
 							`;
 						} else {
 							return `
+							<?php if ($edit_level == 'Y') : ?>
 								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
 								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_buku(` + row[17] + `)">Edit</a></li>
-									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Delete" nama=" + row[0] + "  onclick="delbuku(` + row[17] + `)">Hapus</a></li>
-									<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[17] + `,` + row[16] + `)">Set Status Tidak Aktif</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Edit" data-role="edit" onclick="edit_buku(` + row[17] + `)">Edit</a></li>
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[17] + `,` + row[16] + `)">Set Status Tidak Aktif</a></li>
 								</ul>
+								<?php elseif ($edit_level == 'N') : ?>
+								<a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle btn btn-primary"></a>
+								<ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+								<li><a href="javascript:void(0)" class="dropdown-item text-center" title="Status" onclick="update_status(` + row[17] + `,` + row[16] + `)">Set Status Tidak Aktif</a></li>
+								</ul>
+							<?php endif; ?>
 							`;
 						}
 					},
