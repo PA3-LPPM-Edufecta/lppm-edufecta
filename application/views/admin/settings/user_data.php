@@ -5,7 +5,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header bg-light elevation-1"">
-                <h3 class="card-title mt-1"><i class="fa fa-list text-blue"></i> Data User</h3>
+                <h3 class=" card-title mt-1"><i class="fa fa-list text-blue"></i> Data User</h3>
                 <!-- Card-Tools -->
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool text-blue" data-card-widget="card-refresh" data-source="/lppm/dashboard/luaran" data-source-selector="#card-refresh-content" data-load-on-init="false">
@@ -308,6 +308,13 @@
             $('[name="full_name"]').val(data.full_name);
             $('[name="is_active"]').val(data.is_active);
             $('[name="level"]').val(data.id_level);
+            
+            var x = document.getElementById("stts");
+            if(data.id_level==1){
+              x.style.display = "none";
+            } else {
+              x.style.display = "flex";
+            }
 
             if (data.image == null) {
               var image = "<?php echo base_url('assets/uploads/foto/user/default.png') ?>";
@@ -319,6 +326,7 @@
 
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit User'); // Set title to Bootstrap modal title
+
 
           },
           error: function(jqXHR, textStatus, errorThrown) {
@@ -431,8 +439,7 @@
                     <input type="password" class="form-control " name="password" id="password" placeholder="Password">
                   </div>
                 </div>
-
-                <div class="form-group row ">
+                <div class="form-group row " id="stts">
                   <label for="is_active" class="col-sm-3 col-form-label">Status</label>
                   <div class="col-sm-9 kosong">
                     <select class="form-control" name="is_active" id="is_active">
