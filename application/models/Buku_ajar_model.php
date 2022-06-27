@@ -7,7 +7,7 @@ class Buku_ajar_model extends CI_Model
 	var $tbl_mst_dosen = 'mst_dosen';
 	var $tbl_tipe_pengajuan = 'ref_tipe_pengajuan';
 	var $tbl_buku_lain = 'tbl_buku_file_lain';
-	var $column_search = array('buku.judul', 'buku.penerbit', 'buku.isbn', 'buku.halaman', 'buku.tanggal', 'buku.file_cover', 'buku.file_editorial_board', 'buku.file_penerbit', 'buku.file', 'buku.status', 'dosen.nama', 'dosen.nidn', 'dosen.gelar_depan', 'dosen.gelar_belakang', 'refpengajuan.nama_tipe_pengajuan', 'bukulain.file'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+	var $column_search = array('buku.judul', 'buku.penerbit', 'buku.isbn', 'buku.halaman', 'buku.tanggal', 'buku.file_cover', 'buku.file_editorial_board', 'buku.file_penerbit', 'buku.status', 'dosen.nama', 'dosen.nidn', 'dosen.gelar_depan', 'dosen.gelar_belakang', 'refpengajuan.nama_tipe_pengajuan', 'bukulain.file'); //set column field database for datatable searchable just firstname , lastname , address are searchable
 	var $column_order = array('nama', 'nidn', 'judul', 'penerbit', 'isbn', 'halaman', 'tanggal', 'file_cover', 'file_editorial_board', 'file_penerbit', 'file', 'status');
 	// var $order = array('id' => 'desc'); // default order 
 
@@ -24,7 +24,7 @@ class Buku_ajar_model extends CI_Model
 		$this->db->join('mst_dosen as dosen','dosen.id = buku.id_dosen'); //dosen
 		$this->db->join('ref_tipe_pengajuan as refpengajuan','refpengajuan.id = buku.id_tipe_pengajuan'); //tipe pengajuan
 		$this->db->join('tbl_buku_file_lain as bukulain','bukulain.id = buku.id'); // buku file lain
-		$this->db->like('refpengajuan.nama_tipe_pengajuan', $term);
+		// $this->db->like('refpengajuan.nama_tipe_pengajuan', $term);
 		$this->db->where('buku.id_tipe_pengajuan', '1'); //tampilkan hanya yg ber id_tipe_pengajuan 2
 		$i = 0;
 

@@ -22,7 +22,7 @@ class Luaran_lain_pengabdian_model extends CI_Model
 		$this->db->from('tbl_luaran_lain as luaranlain'); //luaranlain
 		$this->db->join('mst_dosen as dosen','dosen.id = luaranlain.id_dosen'); //dosen
 		$this->db->join('ref_tipe_pengajuan as refpengajuan','refpengajuan.id = luaranlain.id_tipe_pengajuan'); //tipe pengajuan
-		$this->db->like('refpengajuan.nama_tipe_pengajuan', $term);
+		// $this->db->like('refpengajuan.nama_tipe_pengajuan', $term);
 		$this->db->where('luaranlain.id_tipe_pengajuan', '2'); //tampilkan hanya yg ber id_tipe_pengajuan 2
 		$i = 0;
 		

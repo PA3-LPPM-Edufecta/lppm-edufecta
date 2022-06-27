@@ -22,7 +22,7 @@ class HKI_pengabdian_model extends CI_Model
 		$this->db->from('tbl_hki as hki'); //hki
 		$this->db->join('mst_dosen as dosen','dosen.id = hki.id_dosen'); //dosen
 		$this->db->join('ref_tipe_pengajuan as refpengajuan','refpengajuan.id = hki.id_tipe_pengajuan'); //tipe pengajuan
-		$this->db->like('refpengajuan.nama_tipe_pengajuan', $term);
+		// $this->db->like('refpengajuan.nama_tipe_pengajuan', $term);
 		$this->db->where('hki.id_tipe_pengajuan', '2'); //tampilkan hanya yg ber id_tipe_pengajuan 2
 		$i = 0;
 		foreach ($this->column_search as $item) // loop column 

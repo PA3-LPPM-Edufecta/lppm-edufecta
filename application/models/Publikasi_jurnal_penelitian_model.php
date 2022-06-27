@@ -22,7 +22,7 @@ class Publikasi_jurnal_penelitian_model extends CI_Model
 		$this->db->from('tbl_publikasi_jurnal as pubjurnal'); //pubjurnal
 		$this->db->join('mst_dosen as dosen','dosen.id = pubjurnal.id_dosen'); //dosen
 		$this->db->join('ref_tipe_pengajuan as refpengajuan','refpengajuan.id = pubjurnal.id_tipe_pengajuan'); //tipe pengajuan
-		$this->db->like('refpengajuan.nama_tipe_pengajuan', $term);
+		// $this->db->like('refpengajuan.nama_tipe_pengajuan', $term);
 		$this->db->where('pubjurnal.id_tipe_pengajuan', '1'); //tampilkan hanya yg ber id_tipe_pengajuan 1
 		$i = 0;
 		
